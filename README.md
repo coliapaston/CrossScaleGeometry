@@ -24,7 +24,7 @@ The repository is a supplement to the paper rather than a model distribution. Mo
 ## Overview
 
 <p align="center">
-  <img src="docs/assets/pipeline.png" alt="Analysis pipeline" width="100%">
+  <img src="assets/pipeline.png" alt="Analysis pipeline" width="100%">
 </p>
 
 The main analysis follows six stages:
@@ -78,9 +78,9 @@ Here, \(d_{\mathrm{model}}\) is the full unembedding dimension, \(\mathcal{D}_{\
 The following curves show the scale-level means and standard deviations of O-S and MS-E under the deterministic full-PCA baseline.
 
 <p align="center">
-  <img src="docs/assets/main_mistral.png" alt="Mistral main-study lexical curves" width="32%">
-  <img src="docs/assets/main_mixtral.png" alt="Mixtral main-study lexical curves" width="32%">
-  <img src="docs/assets/main_gpt_oss.png" alt="GPT-oss main-study lexical curves" width="32%">
+  <img src="assets/main_mistral.png" alt="Mistral main-study lexical curves" width="32%">
+  <img src="assets/main_mixtral.png" alt="Mixtral main-study lexical curves" width="32%">
+  <img src="assets/main_gpt_oss.png" alt="GPT-oss main-study lexical curves" width="32%">
 </p>
 
 High-resolution versions and control curves are available in [`res/linguistic`](res/linguistic/).
@@ -108,8 +108,8 @@ Exploratory non-pairwise cluster metrics, such as the cross-language ratio \(R(c
 The paper focuses on lexical measurements. The appendix additionally exposes how the underlying HDBSCAN partitions change across the same nine scales.
 
 <p align="center">
-  <img src="docs/assets/cluster_counts.png" alt="Number of clusters across scales" width="48%">
-  <img src="docs/assets/cluster_sizes.png" alt="Cluster sizes across scales" width="48%">
+  <img src="assets/cluster_counts.png" alt="Number of clusters across scales" width="48%">
+  <img src="assets/cluster_sizes.png" alt="Cluster sizes across scales" width="48%">
 </p>
 
 The first two scales are structurally unstable: cluster counts and size distributions change sharply. From the middle scales onward, cluster sizes stabilize while the number of identified clusters generally continues to increase.
@@ -186,9 +186,9 @@ The following appendix plots show two representative randomized-PCA seeds and th
 <summary>Randomized PCA: seed 0</summary>
 
 <p align="center">
-  <img src="docs/assets/appendix_seed_0_mistral.png" alt="Mistral randomized PCA seed 0" width="32%">
-  <img src="docs/assets/appendix_seed_0_mixtral.png" alt="Mixtral randomized PCA seed 0" width="32%">
-  <img src="docs/assets/appendix_seed_0_gpt_oss.png" alt="GPT-oss randomized PCA seed 0" width="32%">
+  <img src="assets/appendix_seed_0_mistral.png" alt="Mistral randomized PCA seed 0" width="32%">
+  <img src="assets/appendix_seed_0_mixtral.png" alt="Mixtral randomized PCA seed 0" width="32%">
+  <img src="assets/appendix_seed_0_gpt_oss.png" alt="GPT-oss randomized PCA seed 0" width="32%">
 </p>
 
 </details>
@@ -197,9 +197,9 @@ The following appendix plots show two representative randomized-PCA seeds and th
 <summary>Randomized PCA: seed 42</summary>
 
 <p align="center">
-  <img src="docs/assets/appendix_seed_42_mistral.png" alt="Mistral randomized PCA seed 42" width="32%">
-  <img src="docs/assets/appendix_seed_42_mixtral.png" alt="Mixtral randomized PCA seed 42" width="32%">
-  <img src="docs/assets/appendix_seed_42_gpt_oss.png" alt="GPT-oss randomized PCA seed 42" width="32%">
+  <img src="assets/appendix_seed_42_mistral.png" alt="Mistral randomized PCA seed 42" width="32%">
+  <img src="assets/appendix_seed_42_mixtral.png" alt="Mixtral randomized PCA seed 42" width="32%">
+  <img src="assets/appendix_seed_42_gpt_oss.png" alt="GPT-oss randomized PCA seed 42" width="32%">
 </p>
 
 </details>
@@ -208,9 +208,9 @@ The following appendix plots show two representative randomized-PCA seeds and th
 <summary>Global token permutation</summary>
 
 <p align="center">
-  <img src="docs/assets/appendix_permutation_mistral.png" alt="Mistral global token permutation" width="32%">
-  <img src="docs/assets/appendix_permutation_mixtral.png" alt="Mixtral global token permutation" width="32%">
-  <img src="docs/assets/appendix_permutation_gpt_oss.png" alt="GPT-oss global token permutation" width="32%">
+  <img src="assets/appendix_permutation_mistral.png" alt="Mistral global token permutation" width="32%">
+  <img src="assets/appendix_permutation_mixtral.png" alt="Mixtral global token permutation" width="32%">
+  <img src="assets/appendix_permutation_gpt_oss.png" alt="GPT-oss global token permutation" width="32%">
 </p>
 
 </details>
@@ -225,15 +225,15 @@ Randomized PCA and random orthogonal projection are different controls:
 For each model and seed, the control constructs one full orthogonal basis and takes nested prefixes at the nine main-study dimensions. The experiment uses ten fixed seeds and the same L2 normalization and HDBSCAN configuration as the baseline. At the full model dimension, the orthogonal transform preserves pairwise geometry; the implementation checks partition invariance and reports AMI and ARI against the baseline.
 
 <p align="center">
-  <img src="docs/assets/random_projection_mistral.png" alt="Mistral full PCA versus random projection" width="100%">
+  <img src="assets/random_projection_mistral.png" alt="Mistral full PCA versus random projection" width="100%">
 </p>
 
 <p align="center">
-  <img src="docs/assets/random_projection_mixtral.png" alt="Mixtral full PCA versus random projection" width="100%">
+  <img src="assets/random_projection_mixtral.png" alt="Mixtral full PCA versus random projection" width="100%">
 </p>
 
 <p align="center">
-  <img src="docs/assets/random_projection_gpt_oss.png" alt="GPT-oss full PCA versus random projection" width="100%">
+  <img src="assets/random_projection_gpt_oss.png" alt="GPT-oss full PCA versus random projection" width="100%">
 </p>
 
 The random-projection curves differ most strongly from the PCA baseline at low dimensions and converge at the full dimension. This control is implemented in [`4r_random_projection_hdbscan.ipynb`](4r_random_projection_hdbscan.ipynb) and [`cluster_anlys/random_projection.py`](cluster_anlys/random_projection.py).
@@ -267,9 +267,9 @@ Low12 reuses the fixed spectrum and deterministic full-PCA matrices from the mai
 - persisted plotting-data tables for every published curve.
 
 <p align="center">
-  <img src="docs/assets/low12_mistral.png" alt="Mistral low12 baseline" width="32%">
-  <img src="docs/assets/low12_mixtral.png" alt="Mixtral low12 baseline" width="32%">
-  <img src="docs/assets/low12_gpt_oss.png" alt="GPT-oss low12 baseline" width="32%">
+  <img src="assets/low12_mistral.png" alt="Mistral low12 baseline" width="32%">
+  <img src="assets/low12_mixtral.png" alt="Mixtral low12 baseline" width="32%">
+  <img src="assets/low12_gpt_oss.png" alt="GPT-oss low12 baseline" width="32%">
 </p>
 
 The complete workflow and its persistent stage contracts are documented in [`1r_low_dimension_spectrum_anlys.ipynb`](1r_low_dimension_spectrum_anlys.ipynb).
@@ -399,7 +399,7 @@ Large generated files are written beneath ignored directories such as `comp/` an
 - `res/spectrum_analysis/` contains compact spectrum arrays, scale tables, and provenance metadata.
 - `res/linguistic/` contains paper-scale lexical curves and selected controls.
 - `res/clusters/` contains baseline cluster statistics.
-- `docs/assets/` contains PNG previews used by this README.
+- `assets/` contains PNG previews used by this README.
 - Generated partitions, PCA matrices, and model tensors remain local and are excluded by `.gitignore`.
 
 The modular metric pipeline persists token IDs and aggregate numerical results. It does not write tokenizer-decoded token strings to metric output tables. Token decoding is performed through the tokenizer only when a metric evaluation requires it.
