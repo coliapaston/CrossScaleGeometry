@@ -1,0 +1,48 @@
+{
+  "full_dimension": 4096,
+  "metadata": {
+    "model_name": "mistralai/Mistral-7B-v0.1",
+    "scope": "main",
+    "space_name": "output_proj"
+  },
+  "provenance": {
+    "142": [
+      "elbow"
+    ],
+    "2084": [
+      "energy"
+    ],
+    "3031": [
+      "energy"
+    ],
+    "3459": [
+      "energy"
+    ],
+    "3938": [
+      "elbow"
+    ],
+    "4088": [
+      "elbow"
+    ],
+    "4096": [
+      "full_dimension"
+    ],
+    "5": [
+      "elbow"
+    ],
+    "997": [
+      "energy"
+    ]
+  },
+  "scales": [
+    5,
+    142,
+    997,
+    2084,
+    3031,
+    3459,
+    3938,
+    4088,
+    4096
+  ]
+}

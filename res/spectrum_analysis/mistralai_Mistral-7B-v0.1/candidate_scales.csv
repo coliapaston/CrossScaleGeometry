@@ -1,0 +1,10 @@
+model_name,scale,sources,is_full_dimension
+mistralai/Mistral-7B-v0.1,5,elbow,False
+mistralai/Mistral-7B-v0.1,142,elbow,False
+mistralai/Mistral-7B-v0.1,997,energy,False
+mistralai/Mistral-7B-v0.1,2084,energy,False
+mistralai/Mistral-7B-v0.1,3031,energy,False
+mistralai/Mistral-7B-v0.1,3459,energy,False
+mistralai/Mistral-7B-v0.1,3938,elbow,False
+mistralai/Mistral-7B-v0.1,4088,elbow,False
+mistralai/Mistral-7B-v0.1,4096,full_dimension,True

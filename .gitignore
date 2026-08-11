@@ -1,0 +1,60 @@
+# Operating-system and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Python bytecode, caches, and build products
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+.conda/
+
+# Jupyter transient files
+.ipynb_checkpoints/
+
+# Local credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Model downloads and caches
+.cache/
+.hf_cache/
+artifacts/
+artifacts_test/
+gpt-oss/
+mistralai/
+stability/
+
+# Large tensors, checkpoints, and columnar intermediates
+*.bin
+*.ckpt
+*.npy
+*.parquet
+*.pt
+*.pth
+*.safetensors
+
+# Generated experiment directories
+comp/
+comp_supplement/
+comp_validation/

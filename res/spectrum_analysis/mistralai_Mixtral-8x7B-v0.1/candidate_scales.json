@@ -1,0 +1,48 @@
+{
+  "full_dimension": 4096,
+  "metadata": {
+    "model_name": "mistralai/Mixtral-8x7B-v0.1",
+    "scope": "main",
+    "space_name": "output_proj"
+  },
+  "provenance": {
+    "1111": [
+      "energy"
+    ],
+    "158": [
+      "elbow"
+    ],
+    "2156": [
+      "energy"
+    ],
+    "3052": [
+      "energy"
+    ],
+    "3457": [
+      "energy"
+    ],
+    "3957": [
+      "elbow"
+    ],
+    "4093": [
+      "elbow"
+    ],
+    "4096": [
+      "full_dimension"
+    ],
+    "8": [
+      "elbow"
+    ]
+  },
+  "scales": [
+    8,
+    158,
+    1111,
+    2156,
+    3052,
+    3457,
+    3957,
+    4093,
+    4096
+  ]
+}
