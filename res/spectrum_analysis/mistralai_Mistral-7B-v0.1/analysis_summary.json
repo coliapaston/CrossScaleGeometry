@@ -1,0 +1,161 @@
+{
+  "candidate_scales": {
+    "full_dimension": 4096,
+    "metadata": {
+      "model_name": "mistralai/Mistral-7B-v0.1",
+      "scope": "main",
+      "space_name": "output_proj"
+    },
+    "provenance": {
+      "142": [
+        "elbow"
+      ],
+      "2084": [
+        "energy"
+      ],
+      "3031": [
+        "energy"
+      ],
+      "3459": [
+        "energy"
+      ],
+      "3938": [
+        "elbow"
+      ],
+      "4088": [
+        "elbow"
+      ],
+      "4096": [
+        "full_dimension"
+      ],
+      "5": [
+        "elbow"
+      ],
+      "997": [
+        "energy"
+      ]
+    },
+    "scales": [
+      5,
+      142,
+      997,
+      2084,
+      3031,
+      3459,
+      3938,
+      4088,
+      4096
+    ]
+  },
+  "format_version": 1,
+  "selections": {
+    "elbow": {
+      "metadata": {},
+      "parameters": {
+        "gap_mode": "curvature_index",
+        "min_gap": 128,
+        "prominence": null,
+        "smooth_polyorder": 3,
+        "smooth_window": 51,
+        "smoothing": null,
+        "take_abs_curvature": false,
+        "top_k": 4,
+        "use_abs_for_peak_ranking": true,
+        "use_squared": true
+      },
+      "selected_indices": [
+        4,
+        141,
+        3937,
+        4087
+      ],
+      "selected_scales": [
+        5,
+        142,
+        3938,
+        4088
+      ],
+      "selector": "elbow"
+    },
+    "energy": {
+      "metadata": {
+        "threshold_to_index": {
+          "0.5": 996,
+          "0.75": 2083,
+          "0.9": 3030,
+          "0.95": 3458
+        },
+        "threshold_to_scale": {
+          "0.5": 997,
+          "0.75": 2084,
+          "0.9": 3031,
+          "0.95": 3459
+        }
+      },
+      "parameters": {
+        "thresholds": [
+          0.5,
+          0.75,
+          0.9,
+          0.95
+        ]
+      },
+      "selected_indices": [
+        996,
+        2083,
+        3030,
+        3458
+      ],
+      "selected_scales": [
+        997,
+        2084,
+        3031,
+        3459
+      ],
+      "selector": "energy"
+    },
+    "full_dimension": {
+      "metadata": {},
+      "parameters": {
+        "full_dimension": 4096
+      },
+      "selected_indices": [
+        4095
+      ],
+      "selected_scales": [
+        4096
+      ],
+      "selector": "full_dimension"
+    },
+    "manual": {
+      "metadata": {},
+      "parameters": {
+        "scales": []
+      },
+      "selected_indices": [],
+      "selected_scales": [],
+      "selector": "manual"
+    }
+  },
+  "spectrum": {
+    "metadata": {
+      "centered": false,
+      "device": null,
+      "feature_dimension": 4096,
+      "input_shape": [
+        32000,
+        4096
+      ],
+      "matrix_path": "mistralai/Mistral-7B-v0.1/tensors/output_proj.pt",
+      "model_name": "mistralai/Mistral-7B-v0.1",
+      "random_state": 0,
+      "randomized_n_components": null,
+      "randomized_n_iter": 4,
+      "space_name": "output_proj",
+      "spectrum_length": 4096,
+      "svd_mode": "full"
+    },
+    "method": "svd",
+    "ordering": "descending"
+  }
+}

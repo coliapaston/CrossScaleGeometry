@@ -1,0 +1,10 @@
+model_name,scale,sources,is_full_dimension
+mistralai/Mixtral-8x7B-v0.1,8,elbow,False
+mistralai/Mixtral-8x7B-v0.1,158,elbow,False
+mistralai/Mixtral-8x7B-v0.1,1111,energy,False
+mistralai/Mixtral-8x7B-v0.1,2156,energy,False
+mistralai/Mixtral-8x7B-v0.1,3052,energy,False
+mistralai/Mixtral-8x7B-v0.1,3457,energy,False
+mistralai/Mixtral-8x7B-v0.1,3957,elbow,False
+mistralai/Mixtral-8x7B-v0.1,4093,elbow,False
+mistralai/Mixtral-8x7B-v0.1,4096,full_dimension,True
