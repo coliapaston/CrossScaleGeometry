@@ -67,7 +67,7 @@ The paper defines the main-study candidate scales as
 \mathcal{D}_{\mathrm{elbow}}.
 ```
 
-Here, $d_{\mathrm{model}}$ is the full unembedding dimension, $\mathcal{D}_{\mathrm{energy}}$ contains the dimensions selected at the cumulative spectral-energy thresholds $\{50\%, 75\%, 90\%, 95\%\}$, and $\mathcal{D}_{\mathrm{elbow}}$ contains the top four log-spectrum elbow dimensions. Their union produces nine model-specific candidate scales.
+Here, $`d_{\mathrm{model}}`$ is the full unembedding dimension, $`\mathcal{D}_{\mathrm{energy}}`$ contains the dimensions selected at the cumulative spectral-energy thresholds $`\{50\%, 75\%, 90\%, 95\%\}`$, and $`\mathcal{D}_{\mathrm{elbow}}`$ contains the top four log-spectrum elbow dimensions. Their union produces nine model-specific candidate scales.
 
 | Model | Selected PCA dimensions |
 |---|---|
@@ -91,7 +91,7 @@ This section presents the detailed appendix material that supports the compresse
 
 ### Scale-level aggregation
 
-For a scale containing $K$ valid non-noise clusters, let $m(c)$ be the cluster-level lexical measurement for cluster $c$. Each cluster contributes equally to the scale-level mean and standard deviation:
+For a scale containing $`K`$ valid non-noise clusters, let $`m(c)`$ be the cluster-level lexical measurement for cluster $`c`$. Each cluster contributes equally to the scale-level mean and standard deviation:
 
 ```math
 \overline{m} = \frac{1}{K}\sum_{c=1}^{K} m(c),
@@ -99,9 +99,9 @@ For a scale containing $K$ valid non-noise clusters, let $m(c)$ be the cluster-l
 \sigma_m = \sqrt{\frac{1}{K}\sum_{c=1}^{K}\left(m(c)-\overline{m}\right)^2}.
 ```
 
-For O-S, $m(c)$ is the mean pairwise orthographic similarity in a cluster. For MS-E, $m(c)$ is the entropy of the cluster's token-level Unicode script distribution. Noise points are excluded from both metrics.
+For O-S, $`m(c)`$ is the mean pairwise orthographic similarity in a cluster. For MS-E, $`m(c)`$ is the entropy of the cluster's token-level Unicode script distribution. Noise points are excluded from both metrics.
 
-Exploratory non-pairwise cluster metrics, such as the cross-language ratio $R(c)$, use the same equal-cluster mean and standard-deviation aggregation. They are reported as auxiliary analyses rather than primary paper claims.
+Exploratory non-pairwise cluster metrics, such as the cross-language ratio $`R(c)`$, use the same equal-cluster mean and standard-deviation aggregation. They are reported as auxiliary analyses rather than primary paper claims.
 
 ### Baseline clustering statistics
 
@@ -248,7 +248,7 @@ The low12 experiment defines its candidate scales as
 \mathcal{D}_{\mathrm{energy}},
 ```
 
-where $\mathcal{D}_{\mathrm{energy}}$ contains the dimensions selected at twelve cumulative spectral-energy thresholds $\{12\%, 15\%, 18\%, 21\%, 24\%, 27\%, 30\%, 33\%, 36\%, 39\%, 42\%, 45\%\}$.
+where $`\mathcal{D}_{\mathrm{energy}}`$ contains the dimensions selected at twelve cumulative spectral-energy thresholds $`\{12\%, 15\%, 18\%, 21\%, 24\%, 27\%, 30\%, 33\%, 36\%, 39\%, 42\%, 45\%\}`$.
 
 | Model | Low12 PCA dimensions |
 |---|---|
