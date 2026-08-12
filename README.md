@@ -64,27 +64,11 @@ Z_k = (W - \mathbf{1}\mu^\top)V_{1:k},
 
 All candidate scales use prefixes of the same ordered PCA basis. HDBSCAN is applied to the normalized rows $`\widehat{Z}_k`$ with Euclidean distance. The paper-scale set is
 
-```math
-\mathcal{D}
-=
-\{d\}
-\cup
-\mathcal{D}_{\mathrm{energy}}
-\cup
-\mathcal{D}_{\mathrm{elbow}}.
-```
+$$\mathcal{D} = \{d\} \cup \mathcal{D}_{\mathrm{energy}} \cup \mathcal{D}_{\mathrm{elbow}}.$$
 
 For a non-noise cluster $`c`$ containing $`n_c`$ token strings, O-S is
 
-```math
-\operatorname{OS}(c)
-=
-\frac{2}{n_c(n_c-1)}
-\sum_{1 \le i < j \le n_c}
-S(x_i,x_j),
-\qquad
-S(x_i,x_j)=1-\operatorname{N\text{-}DIST}(x_i,x_j).
-```
+$$\mathrm{O\text{-}S}(c) = \frac{2}{n_c(n_c-1)} \sum_{1 \le i < j \le n_c} S(x_i,x_j), \qquad S(x_i,x_j)=1-\mathrm{N\text{-}DIST}(x_i,x_j).$$
 
 The implementation uses the positional-trigram N-DIST dynamic program with case-insensitive comparison through `str.casefold()`. It retains punctuation and tokenizer-specific markers. The active scoring path does not insert an artificial fixed prefix. Clusters of at most 512 tokens use all unordered pairs; larger clusters use ten deterministic subsamples of 128 tokens with seed `1813382118`.
 
