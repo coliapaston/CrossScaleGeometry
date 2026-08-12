@@ -234,11 +234,15 @@ Low12 uses twelve cumulative spectral-energy thresholds:
 \{12\%,15\%,18\%,21\%,24\%,27\%,30\%,33\%,36\%,39\%,42\%,45\%\}.
 ```
 
-| Model | Low12 PCA dimensions |
+These thresholds produce twelve model-specific candidate scales:
+
+| Model | Selected PCA dimensions |
 |---|---|
 | Mistral-7B | 6, 44, 95, 155, 223, 296, 373, 455, 541, 631, 725, 824 |
 | Mixtral-8x7B | 76, 134, 198, 267, 339, 415, 494, 577, 663, 752, 845, 942 |
 | GPT-oss-20B | 37, 60, 88, 122, 162, 209, 262, 320, 384, 452, 525, 602 |
+
+As in the main experiment, Low12 scale index means the ascending position within a model-specific list, not a shared PCA dimension across models or experiments.
 
 The experiment reuses the fixed spectrum and deterministic full-PCA basis. It creates 36 baseline partitions and repeats the randomized-PCA, six-configuration HDBSCAN, ten-seed global-permutation, and ten-seed length-bucket controls over the denser domain. Full reproduction therefore involves hundreds of clustering and metric tasks.
 
@@ -251,6 +255,30 @@ The experiment reuses the fixed spectrum and deterministic full-PCA basis. It cr
 </p>
 
 O-S increases across the low-dimensional range in all three models, but at different rates. Mistral rises from 0.201 at dimension 6 to approximately 0.56 from dimension 373 onward. Mixtral rises from 0.306 at dimension 76 to 0.518 at dimension 198, then remains near 0.53. GPT-oss rises from 0.365 at dimension 37 to 0.551 at dimension 602, with local non-monotonicity in the middle. Raw MS-E is more variable at the earliest scales and does not define one common transition location.
+
+#### Cluster counts, sizes, and noise fractions
+
+<p align="center">
+  <a href="assets/low12_cluster_counts.pdf"><img src="assets/low12_cluster_counts.png" alt="Low12 number of HDBSCAN clusters across scales" width="32%"></a>
+  <a href="assets/low12_cluster_sizes.pdf"><img src="assets/low12_cluster_sizes.png" alt="Low12 mean and median HDBSCAN cluster sizes across scales" width="32%"></a>
+  <a href="assets/low12_noise_fraction.pdf"><img src="assets/low12_noise_fraction.png" alt="Low12 HDBSCAN noise fractions across scales" width="32%"></a>
+</p>
+Across the twelve low-dimensional observations, cluster counts generally increase while mean non-noise cluster sizes generally decrease. Median cluster sizes remain comparatively small and stable for most models and scales. Noise fractions are model-specific: Mixtral decreases fairly steadily, Mistral rises at the earliest scales and then broadly declines, and GPT-oss remains high except for one discontinuous partition at SI=5.
+
+At GPT-oss SI=5, corresponding to PCA dimension 162, HDBSCAN returns only two non-noise clusters and labels 2.8% of rows as noise. The resulting mean and median cluster sizes are both 97,774 tokens. Because the adjacent scales return hundreds of clusters and noise fractions above 80%, this isolated point should be interpreted as a partition discontinuity rather than a smooth dimensional transition.
+
+<details>
+<summary>Low12 noise fractions by scale index</summary>
+
+| Model | SI=1 | SI=2 | SI=3 | SI=4 | SI=5 | SI=6 | SI=7 | SI=8 | SI=9 | SI=10 | SI=11 | SI=12 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Mistral-7B | 72.5% | 89.9% | 93.1% | 90.8% | 89.0% | 87.1% | 85.4% | 83.9% | 82.9% | 84.5% | 81.6% | 80.1% |
+| Mixtral-8x7B | 90.8% | 89.5% | 83.8% | 79.2% | 75.3% | 72.1% | 71.8% | 69.5% | 68.5% | 66.7% | 65.8% | 64.7% |
+| GPT-oss-20B | 76.7% | 82.4% | 82.8% | 81.6% | 2.8% | 85.6% | 86.1% | 86.8% | 85.9% | 84.4% | 82.3% | 79.7% |
+
+The table reports the fraction of matrix rows labeled as HDBSCAN noise. `SI` is the ascending position within each model's Low12 candidate-scale list.
+
+</details>
 
 The complete persistent workflow is in [`1r_low_dimension_spectrum_anlys.ipynb`](1r_low_dimension_spectrum_anlys.ipynb). Reproduction writes the underlying plotting tables beneath `comp_supplement/low_energy_lt050_v1/figures/baseline/`; this generated artifact tree is excluded from version control.
 
