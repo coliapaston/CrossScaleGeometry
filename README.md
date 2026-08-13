@@ -208,13 +208,15 @@ The control generally breaks the baseline ordering and level. GPT-oss MS-E retai
 
 The stricter O-S control permits token exchange only within character-length buckets `1-2`, `3-5`, `6-10`, and `11+`. It preserves the valid token set, cluster sizes, and coarse token-length composition while disrupting token-cluster assignment.
 
-| Model | Spearman p-value | MAE | R2 |
-|---|---:|---:|---:|
-| Mistral-7B | 0.1491 | 0.3514 | -8.7701 |
-| Mixtral-8x7B | 0.0610 | 0.3345 | -8.4158 |
-| GPT-oss-20B | 0.3260 | 0.3896 | -15.6177 |
+The table compares the deterministic baseline with the mean curve across ten permutation seeds.
 
-All three controls lose conventional rank-correlation significance. Their strongly negative R2 values mean that a constant baseline-mean predictor explains the deterministic curve better than the permuted curve. This control is applied only to O-S because token length is a direct orthographic confound.
+| Model | Spearman rho | p-value | MAE | R2 |
+|---|---:|---:|---:|---:|
+| Mistral-7B | 0.4833 | 0.1875 | 0.3514 | -8.7698 |
+| Mixtral-8x7B | 0.7333 | 0.0246 | 0.3345 | -8.4155 |
+| GPT-oss-20B | -0.4000 | 0.2861 | 0.3896 | -15.6176 |
+
+Mixtral retains a significant positive rank correlation, whereas Mistral and GPT-oss do not. However, all three controls show large MAE and strongly negative R2, so none reproduces the baseline curve in magnitude: a constant baseline-mean predictor explains the deterministic curve better than the permuted curve. The Mixtral result indicates partial preservation of scale ordering after controlling for coarse length, not numerical agreement with the baseline. This control is applied only to O-S because token length is a direct orthographic confound.
 
 ## 5. Additional Analyses
 
