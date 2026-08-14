@@ -140,20 +140,23 @@ The first two scales are structurally unstable: cluster counts, sizes, and noise
 | Model | SI=1 | SI=2 | SI=3 | SI=4 | SI=5 | SI=6 | SI=7 | SI=8 | SI=9 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | Mistral-7B | 88.4% | 91.3% | 77.1% | 68.9% | 68.0% | 68.3% | 67.9% | 66.5% | 66.9% |
-| Mixtral-8x7B | 73.2% | 87.6% | 63.5% | 60.5% | 60.0% | 60.0% | 59.5% | 59.5% | 59.5% |
+| Mixtral-8x7B | 73.2% | 87.6% | 63.5% | 60.5% | 60.5% | 60.0% | 59.5% | 59.5% | 59.5% |
 | GPT-oss-20B | 74.8% | 84.4% | 84.0% | 76.6% | 67.4% | 65.9% | 65.8% | 65.8% | 65.8% |
 
 The table reports the fraction of matrix rows labeled as HDBSCAN noise. `SI` is the model-specific ascending scale index.
 
 ### 4.2 Randomized-PCA stability
 
-Randomized PCA approximates data-aligned principal directions with a stochastic solver. This control tests numerical and seed stability, not the effect of replacing PCA with unrelated directions. The table reports Spearman correlation between each randomized-PCA curve and the deterministic full-PCA curve, summarized across eight seeds.
+Randomized PCA approximates data-aligned principal directions with a stochastic solver. This control tests numerical and seed stability, not the effect of replacing PCA with unrelated directions. Each randomized-PCA curve is compared separately with the deterministic full-PCA curve. The table reports the mean ± sample standard deviation across eight seeds.
 
-| Model | O-S rho | O-S p-value | MS-E rho | MS-E p-value |
-|---|---:|---:|---:|---:|
-| Mistral-7B | 0.965 ± 0.033 | 0.000 ± 0.000 | 0.960 ± 0.031 | 0.000 ± 0.000 |
-| Mixtral-8x7B | 0.956 ± 0.053 | 0.001 ± 0.001 | 0.929 ± 0.053 | 0.001 ± 0.001 |
-| GPT-oss-20B | 0.996 ± 0.008 | 0.000 ± 0.000 | 0.985 ± 0.011 | 0.001 ± 0.002 |
+| Model | Metric | Spearman $\rho$ | $p$-value | MAE | $R^2$ |
+|---|---|---:|---:|---:|---:|
+| Mistral-7B | O-S | 0.965 ± 0.033 | 0.000 ± 0.000 | 0.004 ± 0.001 | 0.996 ± 0.002 |
+| Mistral-7B | MS-E | 0.960 ± 0.031 | 0.000 ± 0.000 | 0.004 ± 0.001 | 0.985 ± 0.010 |
+| Mixtral-8x7B | O-S | 0.956 ± 0.053 | 0.001 ± 0.001 | 0.003 ± 0.001 | 0.998 ± 0.002 |
+| Mixtral-8x7B | MS-E | 0.929 ± 0.053 | 0.001 ± 0.001 | 0.003 ± 0.001 | 0.981 ± 0.020 |
+| GPT-oss-20B | O-S | 0.996 ± 0.008 | 0.000 ± 0.000 | 0.003 ± 0.001 | 0.997 ± 0.003 |
+| GPT-oss-20B | MS-E | 0.965 ± 0.055 | 0.001 ± 0.002 | 0.004 ± 0.001 | 0.993 ± 0.006 |
 
 The high correlations show that the cross-scale curves are not artifacts of one randomized solver seed. They do not imply that individual cluster identities are identical across seeds.
 
@@ -176,25 +179,31 @@ The high correlations show that the cross-scale curves are not artifacts of one 
 
 ### 4.3 HDBSCAN parameter stability
 
-The baseline uses `min_cluster_size=5` and `min_samples=5`. Six nearby configurations are evaluated: `(6, 5)`, `(5, 6)`, `(6, 6)`, `(4, 5)`, `(5, 4)`, and `(4, 4)`.
+The baseline uses `min_cluster_size=5` and `min_samples=5`. Six nearby configurations are evaluated: `(6, 5)`, `(5, 6)`, `(6, 6)`, `(4, 5)`, `(5, 4)`, and `(4, 4)`. Each configuration-specific curve is compared separately with the deterministic baseline. The table reports the mean ± sample standard deviation across the six configurations.
 
-| Model | O-S MAE | MS-E MAE | Joint MAE | O-S R2 | MS-E R2 | Joint R2 |
-|---|---:|---:|---:|---:|---:|---:|
-| Mistral-7B | 0.0126 | 0.0110 | 0.0118 | 0.9845 | 0.9151 | 0.9931 |
-| Mixtral-8x7B | 0.0130 | 0.0102 | 0.0116 | 0.9813 | 0.8781 | 0.9942 |
-| GPT-oss-20B | 0.0165 | 0.0223 | 0.0194 | 0.9655 | 0.9235 | 0.9815 |
+| Model | Metric | Spearman $\rho$ | $p$-value | MAE | $R^2$ |
+|---|---|---:|---:|---:|---:|
+| Mistral-7B | O-S | 0.942 ± 0.049 | 0.001 ± 0.001 | 0.013 ± 0.005 | 0.984 ± 0.011 |
+| Mistral-7B | MS-E | 0.797 ± 0.211 | 0.048 ± 0.075 | 0.011 ± 0.004 | 0.915 ± 0.102 |
+| Mixtral-8x7B | O-S | 0.686 ± 0.158 | 0.070 ± 0.092 | 0.013 ± 0.005 | 0.981 ± 0.013 |
+| Mixtral-8x7B | MS-E | 0.889 ± 0.141 | 0.011 ± 0.023 | 0.010 ± 0.004 | 0.878 ± 0.065 |
+| GPT-oss-20B | O-S | 0.981 ± 0.025 | 0.000 ± 0.000 | 0.016 ± 0.006 | 0.966 ± 0.026 |
+| GPT-oss-20B | MS-E | 0.919 ± 0.081 | 0.002 ± 0.004 | 0.022 ± 0.008 | 0.923 ± 0.052 |
 
-Mean joint Spearman correlations are 0.9542 for Mistral-7B, 0.5710 for Mixtral-8x7B, and 0.8000 for GPT-oss-20B. These are local perturbations around a fixed observation resolution, not a search for an optimal HDBSCAN configuration.
+These are local perturbations around a fixed observation resolution, not a search for an optimal HDBSCAN configuration.
 
 ### 4.4 Token permutation
 
-The global permutation control preserves every partition, cluster size, and non-noise position, but randomly reassigns token IDs before recomputing lexical metrics. Ten fixed seeds are averaged.
+The global permutation control preserves every partition, cluster size, and non-noise position, but randomly reassigns token IDs before recomputing lexical metrics. Each seed-specific curve is compared separately with the deterministic baseline. The table reports the mean ± sample standard deviation across ten fixed seeds.
 
-| Model | O-S rho | O-S p-value | MS-E rho | MS-E p-value |
-|---|---:|---:|---:|---:|
-| Mistral-7B | 0.333 | 0.381 | -0.217 | 0.576 |
-| Mixtral-8x7B | -0.233 | 0.546 | -0.283 | 0.460 |
-| GPT-oss-20B | -0.450 | 0.224 | -0.900 | 0.001 |
+| Model | Metric | Spearman $\rho$ | $p$-value | MAE | $R^2$ |
+|---|---|---:|---:|---:|---:|
+| Mistral-7B | O-S | 0.328 ± 0.008 | 0.388 ± 0.012 | 0.359 ± 0.001 | -9.136 ± 0.042 |
+| Mistral-7B | MS-E | -0.183 ± 0.065 | 0.639 ± 0.126 | 0.198 ± 0.004 | -15.065 ± 1.018 |
+| Mixtral-8x7B | O-S | -0.073 ± 0.272 | 0.520 ± 0.152 | 0.338 ± 0.001 | -8.809 ± 0.025 |
+| Mixtral-8x7B | MS-E | -0.410 ± 0.099 | 0.287 ± 0.124 | 0.168 ± 0.003 | -36.972 ± 1.440 |
+| GPT-oss-20B | O-S | -0.417 ± 0.053 | 0.269 ± 0.068 | 0.396 ± 0.000 | -16.151 ± 0.006 |
+| GPT-oss-20B | MS-E | -0.865 ± 0.062 | 0.005 ± 0.006 | 0.158 ± 0.001 | -2.944 ± 0.060 |
 
 The control generally breaks the baseline ordering and level. GPT-oss MS-E retains a strong negative rank correlation, so the result should be read as disruption and reversal rather than as universal absence of correlation. With only nine scale points, rank correlation is interpreted together with absolute error and R2.
 
@@ -208,15 +217,15 @@ The control generally breaks the baseline ordering and level. GPT-oss MS-E retai
 
 The stricter O-S control permits token exchange only within character-length buckets `1-2`, `3-5`, `6-10`, and `11+`. It preserves the valid token set, cluster sizes, and coarse token-length composition while disrupting token-cluster assignment.
 
-The table compares the deterministic baseline with the mean curve across ten permutation seeds.
+Each seed-specific O-S curve is compared separately with the deterministic baseline. The table reports the mean ± sample standard deviation across ten permutation seeds.
 
-| Model | Spearman rho | p-value | MAE | R2 |
-|---|---:|---:|---:|---:|
-| Mistral-7B | 0.4833 | 0.1875 | 0.3514 | -8.7698 |
-| Mixtral-8x7B | 0.7333 | 0.0246 | 0.3345 | -8.4155 |
-| GPT-oss-20B | -0.4000 | 0.2861 | 0.3896 | -15.6176 |
+| Model | Metric | Spearman $\rho$ | $p$-value | MAE | $R^2$ |
+|---|---|---:|---:|---:|---:|
+| Mistral-7B | O-S | 0.545 ± 0.118 | 0.149 ± 0.095 | 0.351 ± 0.001 | -8.770 ± 0.030 |
+| Mixtral-8x7B | O-S | 0.675 ± 0.111 | 0.061 ± 0.054 | 0.335 ± 0.000 | -8.416 ± 0.013 |
+| GPT-oss-20B | O-S | -0.373 ± 0.052 | 0.326 ± 0.073 | 0.390 ± 0.000 | -15.618 ± 0.018 |
 
-Mixtral retains a significant positive rank correlation, whereas Mistral and GPT-oss do not. However, all three controls show large MAE and strongly negative R2, so none reproduces the baseline curve in magnitude: a constant baseline-mean predictor explains the deterministic curve better than the permuted curve. The Mixtral result indicates partial preservation of scale ordering after controlling for coarse length, not numerical agreement with the baseline. This control is applied only to O-S because token length is a direct orthographic confound.
+Mixtral retains the strongest positive rank correspondence, but all three controls show large MAE and strongly negative R2, so none reproduces the baseline curve in magnitude: a constant baseline-mean predictor explains the deterministic curve better than the permuted curve. The Mixtral result indicates partial preservation of scale ordering after controlling for coarse length, not numerical agreement with the baseline. This control is applied only to O-S because token length is a direct orthographic confound.
 
 ## 5. Additional Analyses
 
@@ -316,15 +325,16 @@ The largest PCA-versus-random differences occur at reduced dimensions. The rando
 
 #### PCA vs RP quantitative summary
 
-The table compares the deterministic PCA curve with the mean curve across ten random-projection seeds.
+Each seed-specific random-projection curve is compared separately with the deterministic PCA baseline. The table reports the mean ± sample standard deviation across ten seeds.
 
-| Model | O-S rho | O-S p-value | MS-E rho | MS-E p-value | Joint rho | Joint p-value |
-|---|---:|---:|---:|---:|---:|---:|
-| Mistral-7B | 0.167 | 0.668 | 0.850 | 0.004 | 0.719 | 0.001 |
-| Mixtral-8x7B | 0.233 | 0.546 | 0.217 | 0.576 | 0.459 | 0.055 |
-| GPT-oss-20B | 0.467 | 0.205 | 0.700 | 0.036 | 0.455 | 0.058 |
-
-The joint comparison concatenates baseline-standardized O-S and MS-E values. It is a compact two-metric diagnostic, not an additional lexical measurement.
+| Model | Metric | Spearman $\rho$ | $p$-value | MAE | $R^2$ |
+|---|---|---:|---:|---:|---:|
+| Mistral-7B | O-S | 0.048 ± 0.255 | 0.587 ± 0.204 | 0.027 ± 0.001 | 0.810 ± 0.012 |
+| Mistral-7B | MS-E | 0.592 ± 0.171 | 0.133 ± 0.123 | 0.025 ± 0.001 | -0.050 ± 0.095 |
+| Mixtral-8x7B | O-S | 0.105 ± 0.285 | 0.574 ± 0.307 | 0.011 ± 0.001 | 0.968 ± 0.002 |
+| Mixtral-8x7B | MS-E | 0.127 ± 0.251 | 0.588 ± 0.268 | 0.051 ± 0.002 | -10.562 ± 1.068 |
+| GPT-oss-20B | O-S | 0.318 ± 0.264 | 0.473 ± 0.349 | 0.028 ± 0.001 | 0.737 ± 0.023 |
+| GPT-oss-20B | MS-E | 0.240 ± 0.360 | 0.411 ± 0.327 | 0.138 ± 0.005 | -5.333 ± 0.756 |
 
 #### Full-dimensional invariance explanation
 
