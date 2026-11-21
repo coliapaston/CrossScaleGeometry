@@ -354,7 +354,7 @@ The full-dimensional clustering should therefore be invariant in exact arithmeti
 | Mixtral-8x7B | 0.998748 | 0.997806-0.999268 | 0.998887 | 0.998275-0.999365 |
 | GPT-oss-20B | 0.999634 | 0.999547-0.999707 | 0.999635 | 0.999517-0.999711 |
 
-The control therefore verifies numerical near-invariance, not exact equality of every HDBSCAN label. Its implementation is in [`4r_random_projection_hdbscan.ipynb`](4r_random_projection_hdbscan.ipynb) and [`cluster_anlys/random_projection.py`](cluster_anlys/random_projection.py).
+The control therefore verifies numerical near-invariance, not exact equality of every HDBSCAN label. Its implementation is in [`4r_random_projection_hdbscan.ipynb`](4r_random_projection_hdbscan.ipynb) and [`crossscale/random_projection.py`](crossscale/random_projection.py).
 
 ## 6. Model and Vocabulary Configuration
 
@@ -415,14 +415,14 @@ The same discipline applies beyond token vocabularies. Any matrix with independe
 
 | Path | Responsibility |
 |---|---|
-| [`cluster_anlys/spectrum_pipeline.py`](cluster_anlys/spectrum_pipeline.py) | Spectrum loading, scale selection, and diagnostics |
-| [`cluster_anlys/representation_pipeline.py`](cluster_anlys/representation_pipeline.py) | PCA and random-projection representation stages |
-| [`cluster_anlys/clustering_pipeline.py`](cluster_anlys/clustering_pipeline.py) | Scale tasks, HDBSCAN, and partition manifests |
-| [`cluster_anlys/metric_pipeline.py`](cluster_anlys/metric_pipeline.py) | O-S, MS-E, result tables, and resumable metrics |
-| [`cluster_anlys/permutation_pipeline.py`](cluster_anlys/permutation_pipeline.py) | Global and length-bucket permutation controls |
-| [`cluster_anlys/statistics_pipeline.py`](cluster_anlys/statistics_pipeline.py) | Curve alignment, correlations, MAE, and R2 |
-| [`cluster_anlys/plotting_pipeline.py`](cluster_anlys/plotting_pipeline.py) | Reproducible figures and sibling plotting tables |
-| [`cluster_anlys/experiment_orchestrator.py`](cluster_anlys/experiment_orchestrator.py) | Multi-stage experiment orchestration |
+| [`crossscale/spectrum_pipeline.py`](crossscale/spectrum_pipeline.py) | Spectrum loading, scale selection, and diagnostics |
+| [`crossscale/representation_pipeline.py`](crossscale/representation_pipeline.py) | PCA and random-projection representation stages |
+| [`crossscale/clustering_pipeline.py`](crossscale/clustering_pipeline.py) | Scale tasks, HDBSCAN, and partition manifests |
+| [`crossscale/metric_pipeline.py`](crossscale/metric_pipeline.py) | O-S, MS-E, result tables, and resumable metrics |
+| [`crossscale/permutation_pipeline.py`](crossscale/permutation_pipeline.py) | Global and length-bucket permutation controls |
+| [`crossscale/statistics_pipeline.py`](crossscale/statistics_pipeline.py) | Curve alignment, correlations, MAE, and R2 |
+| [`crossscale/plotting_pipeline.py`](crossscale/plotting_pipeline.py) | Reproducible figures and sibling plotting tables |
+| [`crossscale/experiment_orchestrator.py`](crossscale/experiment_orchestrator.py) | Multi-stage experiment orchestration |
 | [`tests/`](tests/) | Unit and contract tests for the packaged pipeline |
 | [`res/`](res/) | Compact paper-scale results and metadata |
 | [`assets/`](assets/) | README preview figures |

@@ -992,6 +992,7 @@ class SpearmanStatistic:
         """Return the existing two-sided SciPy Spearman semantics."""
 
         return {
+            # Frozen identifier from the pre-rename package; it feeds config hashes.
             "implementation": "cluster_anlys.spearman.compute_spearman_stats",
             "alternative": "two-sided",
         }
@@ -1034,6 +1035,7 @@ class PearsonStatistic:
         """Return the existing two-sided SciPy Pearson semantics."""
 
         return {
+            # Frozen identifier from the pre-rename package; it feeds config hashes.
             "implementation": "cluster_anlys.pearson.compute_pearson_stats",
             "alternative": "two-sided",
         }

@@ -6,18 +6,18 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from cluster_anlys.clustering_pipeline import (
+from crossscale.clustering_pipeline import (
     ClusteringOutputLayout,
     PartitionManifest,
     PartitionManifestRow,
 )
-from cluster_anlys.permutation_pipeline import (
+from crossscale.permutation_pipeline import (
     GlobalTokenPermutation,
     LengthBucketTokenPermutation,
     PartitionPermutationPipeline,
     PartitionPermutationStrategy,
 )
-from cluster_anlys.pipeline_core import RunPolicy, ScaleTask
+from crossscale.pipeline_core import RunPolicy, ScaleTask
 
 
 class FakeTokenizer:

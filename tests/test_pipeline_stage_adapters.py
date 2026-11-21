@@ -2,11 +2,11 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from cluster_anlys.clustering_pipeline import (
+from crossscale.clustering_pipeline import (
     ClusteringPipelineRun,
     PartitionManifest,
 )
-from cluster_anlys.experiment_orchestrator import (
+from crossscale.experiment_orchestrator import (
     DataProduct,
     DataProductSpec,
     DataProductStore,
@@ -14,13 +14,13 @@ from cluster_anlys.experiment_orchestrator import (
     ExperimentStage,
     StageRegistry,
 )
-from cluster_anlys.pipeline_core import ScaleTask, StageRunReport
-from cluster_anlys.metric_pipeline import (
+from crossscale.pipeline_core import ScaleTask, StageRunReport
+from crossscale.metric_pipeline import (
     MetricResultRow,
     MetricResultTable,
     PartitionMetricPipelineRun,
 )
-from cluster_anlys.pipeline_stage_adapters import (
+from crossscale.pipeline_stage_adapters import (
     ClusteringPipelineRunner,
     PartitionMetricPipelineRunner,
     ComposedStatisticsPipelineRunner,
@@ -33,7 +33,7 @@ from cluster_anlys.pipeline_stage_adapters import (
     make_plot_stage,
     make_statistics_stage,
 )
-from cluster_anlys.statistics_pipeline import (
+from crossscale.statistics_pipeline import (
     ComposedStatisticsPipeline,
     ComposedStatisticsPipelineRun,
     CurveQuery,
@@ -44,7 +44,7 @@ from cluster_anlys.statistics_pipeline import (
     StatisticsPipelineRun,
     ZScoreConcatenationComposer,
 )
-from cluster_anlys.plotting_pipeline import (
+from crossscale.plotting_pipeline import (
     AxisSpec,
     FigureSpec,
     LineSpec,

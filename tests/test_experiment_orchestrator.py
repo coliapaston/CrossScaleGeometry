@@ -2,7 +2,7 @@ from dataclasses import FrozenInstanceError
 from datetime import datetime, timezone
 import unittest
 
-from cluster_anlys.experiment_orchestrator import (
+from crossscale.experiment_orchestrator import (
     CallableExperimentStage,
     DataProduct,
     DataProductSpec,
@@ -14,7 +14,7 @@ from cluster_anlys.experiment_orchestrator import (
     StageExecution,
     StageRegistry,
 )
-from cluster_anlys.pipeline_core import (
+from crossscale.pipeline_core import (
     ScaleTask,
     StageRunRecord,
     StageRunReport,

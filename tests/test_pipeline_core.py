@@ -1,6 +1,6 @@
 import unittest
 
-from cluster_anlys.pipeline_core import (
+from crossscale.pipeline_core import (
     RunPolicy,
     ScaleTask,
     StageRunRecord,

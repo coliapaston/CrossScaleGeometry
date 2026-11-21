@@ -4,9 +4,9 @@ import tempfile
 
 import pandas as pd
 
-from cluster_anlys.metric_pipeline import MetricResultRow, MetricResultTable
-from cluster_anlys.pipeline_core import ScaleTask
-from cluster_anlys.plotting_pipeline import (
+from crossscale.metric_pipeline import MetricResultRow, MetricResultTable
+from crossscale.pipeline_core import ScaleTask
+from crossscale.plotting_pipeline import (
     AxisSpec,
     FigureSpec,
     LegendSpec,
@@ -23,7 +23,7 @@ from cluster_anlys.plotting_pipeline import (
     PlotPipeline,
     PlotPipelineRun,
 )
-from cluster_anlys.statistics_pipeline import CurveQuery
+from crossscale.statistics_pipeline import CurveQuery
 
 
 def make_query(**overrides):

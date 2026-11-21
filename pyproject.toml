@@ -35,4 +35,4 @@ notebook = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["cluster_anlys*", "paper_tool*"]
+include = ["crossscale*", "paper_tool*"]

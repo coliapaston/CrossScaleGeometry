@@ -8,7 +8,7 @@ from unittest.mock import patch
 import numpy as np
 import pandas as pd
 
-from cluster_anlys.clustering_pipeline import (
+from crossscale.clustering_pipeline import (
     FullPCAPrefixProvider,
     HDBSCANAdapter,
     IdentityTransform,
@@ -30,7 +30,7 @@ from cluster_anlys.clustering_pipeline import (
     validate_partition_output,
     write_partition_output,
 )
-from cluster_anlys.pipeline_core import RunPolicy, ScaleTask
+from crossscale.pipeline_core import RunPolicy, ScaleTask
 
 
 def make_task(**overrides):
@@ -203,7 +203,7 @@ class MatrixTransformTests(unittest.TestCase):
         self.assertIsInstance(transform, MatrixTransform)
 
     def test_row_l2_matches_existing_function_elementwise(self):
-        from cluster_anlys.pca_hdbscan import apply_l2_normalization
+        from crossscale.pca_hdbscan import apply_l2_normalization
 
         task = make_task(scale=3)
         matrix = np.array(
@@ -350,7 +350,7 @@ class PartitionMethodProtocolTests(unittest.TestCase):
 
 class HDBSCANAdapterTests(unittest.TestCase):
     def test_passes_exact_parameters_and_standardizes_old_table(self):
-        from cluster_anlys.pca_hdbscan import build_token_cluster_df
+        from crossscale.pca_hdbscan import build_token_cluster_df
 
         task = make_task(scale=2)
         matrix = np.arange(8, dtype=np.float32).reshape(4, 2)
@@ -941,7 +941,7 @@ class ClusteringPipelineTests(unittest.TestCase):
 
 class LegacySavedPCARootTests(unittest.TestCase):
     def setUp(self):
-        from cluster_anlys import pca_hdbscan
+        from crossscale import pca_hdbscan
 
         self.module = pca_hdbscan
         self.parameters = [

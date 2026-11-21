@@ -4,7 +4,7 @@ import unittest
 
 import pandas as pd
 
-from cluster_anlys.metric_pipeline import (
+from crossscale.metric_pipeline import (
     METRIC_RESULT_COLUMNS,
     MetricEvaluation,
     MetricObservation,
@@ -20,9 +20,9 @@ from cluster_anlys.metric_pipeline import (
     multi_script_entropy_summary_frame,
     orthographic_similarity_summary_frame,
 )
-from cluster_anlys.clustering_pipeline import PartitionManifest, PartitionManifestRow
-from cluster_anlys.pipeline_core import RunPolicy
-from cluster_anlys.pipeline_core import ScaleTask
+from crossscale.clustering_pipeline import PartitionManifest, PartitionManifestRow
+from crossscale.pipeline_core import RunPolicy
+from crossscale.pipeline_core import ScaleTask
 
 
 def make_task(**overrides):
@@ -482,7 +482,7 @@ class PartitionMetricContractTests(unittest.TestCase):
 
 class OrthographicSimilarityMetricTests(unittest.TestCase):
     def test_matches_existing_numeric_functions_exactly(self):
-        from cluster_anlys.kondrak_cluster_morphology import (
+        from crossscale.kondrak_cluster_morphology import (
             compute_cluster_level_morphology_df,
             compute_global_cluster_stats,
             filter_valid_clusters,
@@ -583,7 +583,7 @@ class MultiScriptEntropyMetricTests(unittest.TestCase):
             return self.tokens[int(token_ids)]
 
     def test_matches_existing_numeric_chain_exactly(self):
-        from cluster_anlys.script_entropy import (
+        from crossscale.script_entropy import (
             annotate_token_scripts,
             build_cluster_script_count_df,
             compute_cluster_entropy_df,

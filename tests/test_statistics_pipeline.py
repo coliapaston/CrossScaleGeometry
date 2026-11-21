@@ -7,9 +7,9 @@ import pandas as pd
 from scipy.stats import pearsonr, spearmanr
 from sklearn.metrics import r2_score
 
-from cluster_anlys.metric_pipeline import MetricResultRow, MetricResultTable
-from cluster_anlys.pipeline_core import ScaleTask
-from cluster_anlys.statistics_pipeline import (
+from crossscale.metric_pipeline import MetricResultRow, MetricResultTable
+from crossscale.pipeline_core import ScaleTask
+from crossscale.statistics_pipeline import (
     ALIGNMENT_STRATEGIES,
     AlignedCurvePair,
     CompositeObservationKey,
@@ -312,7 +312,7 @@ class ZScoreConcatenationComposerTests(unittest.TestCase):
         ))
 
     def test_two_feature_result_matches_existing_joint_zscore_helper(self):
-        from cluster_anlys.spearman import build_joint_mean_zscore_vectors
+        from crossscale.spearman import build_joint_mean_zscore_vectors
 
         scales = (10, 20, 30, 40)
         morph_reference = (0.2, 0.5, 0.9, 1.4)
@@ -776,7 +776,7 @@ class RealStatisticAdapterTests(unittest.TestCase):
         self.target = np.array([0.1, 0.7, 0.5, 1.3, 0.55], dtype=float)
 
     def test_spearman_matches_existing_helper_and_scipy(self):
-        from cluster_anlys.spearman import compute_spearman_stats
+        from crossscale.spearman import compute_spearman_stats
 
         expected_legacy = compute_spearman_stats(self.reference, self.target)
         expected_scipy = spearmanr(self.reference, self.target)
@@ -789,7 +789,7 @@ class RealStatisticAdapterTests(unittest.TestCase):
         self.assertEqual(result.n_points, len(self.reference))
 
     def test_pearson_matches_existing_helper_and_scipy(self):
-        from cluster_anlys.pearson import compute_pearson_stats
+        from crossscale.pearson import compute_pearson_stats
 
         expected_legacy = compute_pearson_stats(self.reference, self.target)
         expected_scipy = pearsonr(self.reference, self.target)

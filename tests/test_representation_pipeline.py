@@ -6,8 +6,8 @@ import unittest
 
 import numpy as np
 
-from cluster_anlys.pipeline_core import RunPolicy, ScaleTask
-from cluster_anlys.representation_pipeline import (
+from crossscale.pipeline_core import RunPolicy, ScaleTask
+from crossscale.representation_pipeline import (
     REPRESENTATION_MANIFEST_COLUMNS,
     RandomizedPCABuilder,
     RandomizedPCAOutputLayout,
