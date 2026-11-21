@@ -108,7 +108,7 @@ class GlobalTokenPermutation:
         model_name: str,
         prepared_state: Any,
     ) -> pd.DataFrame:
-        from .partition_permutation_control import (
+        from .partition.permutation import (
             build_permuted_cluster_df,
             permute_token_ids,
         )
@@ -170,7 +170,7 @@ class LengthBucketTokenPermutation:
         prepared_state: Any,
     ) -> pd.DataFrame:
         self._validate_state(prepared_state)
-        from .permutation_multiseed_pipeline import (
+        from .partition.permutation import (
             permute_token_ids_within_length_buckets,
         )
 
@@ -191,7 +191,7 @@ class LengthBucketTokenPermutation:
         prepared_state: Any,
     ) -> None:
         self._validate_state(prepared_state)
-        from .permutation_multiseed_pipeline import attach_length_bucket_column
+        from .partition.permutation import attach_length_bucket_column
 
         baseline_buckets = attach_length_bucket_column(
             baseline_valid,
@@ -467,7 +467,7 @@ class PartitionPermutationPipeline:
             )
         if len(frame) != row.n_tokens:
             raise ValueError("baseline partition row count does not match its manifest")
-        from .partition_permutation_control import filter_valid_cluster_df
+        from .partition.permutation import filter_valid_cluster_df
 
         valid = filter_valid_cluster_df(frame)
         valid = valid.loc[:, expected_columns].reset_index(drop=True)

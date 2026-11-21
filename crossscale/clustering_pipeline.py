@@ -238,7 +238,7 @@ class RowL2Normalizer:
         """Normalize rows using the canonical PCA pipeline function."""
 
         _validate_transform_input(matrix, task)
-        from .pca_hdbscan import apply_l2_normalization
+        from .partition.hdbscan import apply_l2_normalization
 
         return apply_l2_normalization(matrix, l2_norm=True, eps=self.eps)
 
@@ -348,7 +348,7 @@ def _run_existing_gpu_hdbscan(
     matrix: np.ndarray,
     **parameters: Any,
 ) -> tuple[np.ndarray, np.ndarray]:
-    from .pca_hdbscan import run_gpu_hdbscan
+    from .partition.hdbscan import run_gpu_hdbscan
 
     return run_gpu_hdbscan(matrix, **parameters)
 
@@ -357,7 +357,7 @@ def _build_existing_token_table(
     labels: np.ndarray,
     probabilities: np.ndarray,
 ) -> pd.DataFrame:
-    from .pca_hdbscan import build_token_cluster_df
+    from .partition.hdbscan import build_token_cluster_df
 
     return build_token_cluster_df(labels, probabilities)
 

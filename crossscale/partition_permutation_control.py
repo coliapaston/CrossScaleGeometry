@@ -6,6 +6,13 @@ from typing import Dict, Optional, Sequence
 import numpy as np
 import pandas as pd
 
+from crossscale.partition.permutation import (  # noqa: F401
+    REQUIRED_CLUSTER_COLS,
+    filter_valid_cluster_df,
+    permute_token_ids,
+    build_permuted_cluster_df,
+)
+
 
 REQUIRED_SUMMARY_COLS = [
     "run_id",
@@ -16,10 +23,6 @@ REQUIRED_SUMMARY_COLS = [
     "cluster_csv_path",
 ]
 
-REQUIRED_CLUSTER_COLS = [
-    "token_id",
-    "cluster_id",
-]
 
 PERMUTATION_SUMMARY_FILENAME = "summary.csv"
 PERMUTATION_ALL_SEEDS_FILENAME = "summary_all_seeds.csv"
@@ -38,50 +41,11 @@ def load_summary_df(
     return pd.read_csv(summary_path)
 
 
-
 def load_cluster_df(cluster_csv_path: str | Path) -> pd.DataFrame:
     cluster_csv_path = Path(cluster_csv_path)
     if not cluster_csv_path.exists():
         raise FileNotFoundError(f"cluster csv not found: {cluster_csv_path}")
     return pd.read_csv(cluster_csv_path)
-
-
-
-def filter_valid_cluster_df(cluster_df: pd.DataFrame) -> pd.DataFrame:
-    missing = [c for c in REQUIRED_CLUSTER_COLS if c not in cluster_df.columns]
-    if missing:
-        raise KeyError(f"cluster_df missing required columns: {missing}")
-
-    out = cluster_df.copy()
-    out["cluster_id"] = pd.to_numeric(out["cluster_id"], errors="raise").astype(int)
-    out["token_id"] = pd.to_numeric(out["token_id"], errors="raise").astype(int)
-    out = out.loc[out["cluster_id"] != -1].copy()
-    if out.empty:
-        raise ValueError("No valid clustered tokens remain after filtering cluster_id == -1.")
-    return out
-
-
-
-def permute_token_ids(valid_cluster_df: pd.DataFrame, *, random_state: Optional[int] = None) -> np.ndarray:
-    token_ids = valid_cluster_df["token_id"].to_numpy(dtype=int).copy()
-    rng = np.random.default_rng(random_state)
-    rng.shuffle(token_ids)
-    return token_ids
-
-
-
-def build_permuted_cluster_df(valid_cluster_df: pd.DataFrame, permuted_token_ids: Sequence[int]) -> pd.DataFrame:
-    permuted_token_ids = np.asarray(permuted_token_ids, dtype=int)
-    if len(valid_cluster_df) != len(permuted_token_ids):
-        raise ValueError(
-            "Length mismatch between valid_cluster_df and permuted_token_ids: "
-            f"{len(valid_cluster_df)} vs {len(permuted_token_ids)}"
-        )
-
-    out = valid_cluster_df.copy()
-    out["token_id"] = permuted_token_ids
-    return out
-
 
 
 def build_permutation_root_dir(
@@ -91,7 +55,6 @@ def build_permutation_root_dir(
     space_name: str,
 ) -> Path:
     return Path(out_root) / fake_model_name / space_name
-
 
 
 def build_permutation_seed_dir(
@@ -109,7 +72,6 @@ def build_permutation_seed_dir(
     if perm_seed is None:
         return root_dir
     return root_dir / "seeds" / f"seed_{int(perm_seed)}"
-
 
 
 def build_permutation_cluster_csv_path(
@@ -130,7 +92,6 @@ def build_permutation_cluster_csv_path(
     return cluster_dir / f"run_{int(run_id):05d}_clusters.csv"
 
 
-
 def build_permutation_summary_path(
     *,
     out_root: str | Path,
@@ -147,13 +108,11 @@ def build_permutation_summary_path(
     ) / summary_filename
 
 
-
 def save_permuted_cluster_df(permuted_cluster_df: pd.DataFrame, outpath: str | Path) -> Path:
     outpath = Path(outpath)
     outpath.parent.mkdir(parents=True, exist_ok=True)
     permuted_cluster_df.to_csv(outpath, index=False)
     return outpath
-
 
 
 def rewrite_summary_df_for_permutation(
@@ -181,7 +140,6 @@ def rewrite_summary_df_for_permutation(
     return out
 
 
-
 def save_permutation_summary_df(
     summary_df: pd.DataFrame,
     *,
@@ -201,7 +159,6 @@ def save_permutation_summary_df(
     outpath.parent.mkdir(parents=True, exist_ok=True)
     summary_df.to_csv(outpath, index=False)
     return outpath
-
 
 
 def run_single_partition_permutation(
@@ -228,7 +185,6 @@ def run_single_partition_permutation(
         perm_seed=perm_seed,
     )
     return save_permuted_cluster_df(permuted_cluster_df, outpath)
-
 
 
 def run_partition_permutation_batch_for_seed(
@@ -286,7 +242,6 @@ def run_partition_permutation_batch_for_seed(
     return perm_summary_df, summary_outpath
 
 
-
 def aggregate_permutation_seed_summaries(
     summary_df_by_seed: Dict[int, pd.DataFrame],
 ) -> pd.DataFrame:
@@ -307,7 +262,6 @@ def aggregate_permutation_seed_summaries(
     return out
 
 
-
 def save_permutation_all_seed_summary_df(
     summary_df: pd.DataFrame,
     *,
@@ -324,7 +278,6 @@ def save_permutation_all_seed_summary_df(
     outpath.parent.mkdir(parents=True, exist_ok=True)
     summary_df.to_csv(outpath, index=False)
     return outpath
-
 
 
 def run_partition_permutation_multi_seed(
@@ -360,7 +313,6 @@ def run_partition_permutation_multi_seed(
         filename=PERMUTATION_ALL_SEEDS_FILENAME,
     )
     return summary_df_by_seed, all_seed_summary_df, all_seed_summary_path
-
 
 
 def run_partition_permutation_batch(

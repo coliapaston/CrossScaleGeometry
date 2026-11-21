@@ -203,7 +203,7 @@ class RandomizedPCABuilder:
 
         runner = self._runner
         if runner is None:
-            from .pca_hdbscan import run_randomized_pca
+            from .representation import run_randomized_pca
 
             runner = run_randomized_pca
         runner(

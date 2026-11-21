@@ -8,6 +8,12 @@ import numpy as np
 import pandas as pd
 from scipy.stats import spearmanr
 
+from crossscale.compare import (  # noqa: F401
+    SpearmanResult,
+    _safe_standardize_against_baseline,
+    compute_spearman_stats,
+)
+
 
 SUMMARY_KEY_COLS = [
     "model_name",
@@ -20,13 +26,6 @@ SUMMARY_KEY_COLS = [
     "cluster_selection_method",
     "cluster_selection_epsilon",
 ]
-
-
-@dataclass(frozen=True)
-class SpearmanResult:
-    rho: float
-    pvalue: float
-    n_obs: int
 
 
 @dataclass(frozen=True)
@@ -172,17 +171,6 @@ def align_joint_mean_df(morph_df: pd.DataFrame, script_df: pd.DataFrame) -> pd.D
     return merged.sort_values("pca_dim").reset_index(drop=True)
 
 
-def _safe_standardize_against_baseline(baseline_values: np.ndarray, seed_values: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-    baseline_values = np.asarray(baseline_values, dtype=float)
-    seed_values = np.asarray(seed_values, dtype=float)
-
-    mean = float(np.mean(baseline_values))
-    std = float(np.std(baseline_values, ddof=0))
-    if np.isclose(std, 0.0):
-        return baseline_values - mean, seed_values - mean
-    return (baseline_values - mean) / std, (seed_values - mean) / std
-
-
 def build_mean_vectors(aligned_df: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
     return (
         aligned_df["mean_value_baseline"].to_numpy(dtype=float),
@@ -251,18 +239,6 @@ def build_joint_mean_zscore_vectors(
     baseline_vec = np.concatenate([z_morph_baseline, z_script_baseline])
     seed_vec = np.concatenate([z_morph_seed, z_script_seed])
     return baseline_vec, seed_vec, baseline_joint, seed_joint
-
-
-def compute_spearman_stats(x: Sequence[float], y: Sequence[float]) -> SpearmanResult:
-    x = np.asarray(x, dtype=float)
-    y = np.asarray(y, dtype=float)
-    if x.shape != y.shape:
-        raise ValueError(f"Spearman inputs must have the same shape, got {x.shape} vs {y.shape}")
-    if x.size < 2:
-        raise ValueError(f"Spearman requires at least 2 observations, got n={x.size}")
-
-    rho, pvalue = spearmanr(x, y)
-    return SpearmanResult(rho=float(rho), pvalue=float(pvalue), n_obs=int(x.size))
 
 
 def compute_grouped_permutation_pvalue(
@@ -556,7 +532,6 @@ def save_spearman_summary_df(df: pd.DataFrame, outpath: str | Path) -> Path:
     return outpath
 
 
-
 def _pretty_model_name(model_name: str) -> str:
     mapping = {
         "gpt-oss": "gpt-oss",
@@ -725,7 +700,6 @@ def make_appendix_spearman_latex_table(
         label=label,
         longtable=longtable,
     )
-
 
 
 def make_permutation_vs_full_latex_table(

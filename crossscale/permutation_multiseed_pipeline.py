@@ -5,6 +5,8 @@ from typing import Any, Dict, Sequence
 
 import pandas as pd
 
+from crossscale.tokens import token_id_to_text
+
 try:
     from .partition_permutation_control import run_partition_permutation_multi_seed
     from .kondrak_cluster_morphology import (
@@ -15,6 +17,13 @@ except ImportError:
     from partition_permutation_control import run_partition_permutation_multi_seed
     from kondrak_cluster_morphology import run_kondrak_morphology_for_permutation_seeds
     from script_entropy import run_script_entropy_over_permutation_seeds
+
+from crossscale.partition.permutation import (  # noqa: F401
+    token_id_to_token_text,
+    coarse_character_length_bucket,
+    attach_length_bucket_column,
+    permute_token_ids_within_length_buckets,
+)
 
 
 DEFAULT_OUT_ROOT = "comp"
@@ -125,110 +134,6 @@ def load_tokenizer_for_model_config(model_config: Dict[str, Any]):
     from transformers import AutoTokenizer
 
     return AutoTokenizer.from_pretrained(model_config["tokenizer_path"])
-
-
-def token_id_to_token_text(
-    token_id: int,
-    *,
-    tokenizer,
-    model_name: str,
-) -> str:
-    tid = int(token_id)
-    # Match control runs stored as e.g. "permutation/gpt-oss_rand".
-    if str(model_name).rsplit("/", 1)[-1].startswith("gpt"):
-        return str(tokenizer.decode([tid], clean_up_tokenization_spaces=False))
-    return str(tokenizer.convert_ids_to_tokens(tid))
-
-
-def coarse_character_length_bucket(token_text: Any) -> str:
-    length = len(str(token_text))
-    if length <= 2:
-        return "1-2"
-    if length <= 5:
-        return "3-5"
-    if length <= 10:
-        return "6-10"
-    return "11+"
-
-
-def attach_length_bucket_column(
-    cluster_df: pd.DataFrame,
-    *,
-    tokenizer,
-    model_name: str,
-    token_text_cache: Dict[int, str] | None = None,
-    token_id_col: str = "token_id",
-    token_text_col: str = "token_str",
-    bucket_col: str = "length_bucket",
-) -> pd.DataFrame:
-    if token_text_col not in cluster_df.columns and token_id_col not in cluster_df.columns:
-        raise KeyError(
-            f"cluster_df missing both token text column '{token_text_col}' and token id column '{token_id_col}'."
-        )
-
-    out = cluster_df.copy()
-
-    if token_text_col not in out.columns:
-        if tokenizer is None:
-            raise ValueError(f"{token_text_col} not found and tokenizer is None.")
-        if token_text_cache is None:
-            token_text_cache = {}
-
-        def _map_token_id(value: Any) -> str:
-            token_id = int(value)
-            if token_id not in token_text_cache:
-                token_text_cache[token_id] = token_id_to_token_text(
-                    token_id,
-                    tokenizer=tokenizer,
-                    model_name=model_name,
-                )
-            return token_text_cache[token_id]
-
-        out[token_text_col] = out[token_id_col].map(_map_token_id)
-
-    out[bucket_col] = out[token_text_col].map(coarse_character_length_bucket)
-    return out
-
-
-def permute_token_ids_within_length_buckets(
-    valid_cluster_df: pd.DataFrame,
-    *,
-    tokenizer,
-    model_name: str,
-    random_state: int,
-    token_text_cache: Dict[int, str] | None = None,
-    token_id_col: str = "token_id",
-    token_text_col: str = "token_str",
-    bucket_col: str = "length_bucket",
-) -> pd.DataFrame:
-    import numpy as np
-
-    if token_id_col not in valid_cluster_df.columns:
-        raise KeyError(f"valid_cluster_df missing required column: {token_id_col}")
-
-    out = attach_length_bucket_column(
-        valid_cluster_df,
-        tokenizer=tokenizer,
-        model_name=model_name,
-        token_text_cache=token_text_cache,
-        token_id_col=token_id_col,
-        token_text_col=token_text_col,
-        bucket_col=bucket_col,
-    )
-
-    rng = np.random.default_rng(int(random_state))
-    permuted_token_ids = out[token_id_col].to_numpy(dtype=int).copy()
-
-    for bucket_value in sorted(out[bucket_col].dropna().unique()):
-        bucket_mask = out[bucket_col].to_numpy() == bucket_value
-        bucket_positions = np.flatnonzero(bucket_mask)
-        bucket_token_ids = permuted_token_ids[bucket_positions].copy()
-        rng.shuffle(bucket_token_ids)
-        permuted_token_ids[bucket_positions] = bucket_token_ids
-
-    result = valid_cluster_df.copy()
-    result[token_id_col] = permuted_token_ids
-    return result
 
 
 def run_single_length_bucketed_partition_permutation(

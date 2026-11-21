@@ -219,12 +219,12 @@ class OrthographicSimilarityMetric:
         if not isinstance(model_name, str) or not model_name:
             raise ValueError("prepared_state must contain a model_name")
 
-        from .kondrak_cluster_morphology import (
-            attach_token_str_from_tokenizer,
+        from .metrics.orthographic import (
             compute_cluster_level_morphology_df,
             compute_global_cluster_stats,
-            filter_valid_clusters,
         )
+        from .partition.hdbscan import filter_valid_clusters
+        from .tokens import attach_token_str_from_tokenizer
 
         valid_partition = filter_valid_clusters(
             partition,
@@ -326,7 +326,7 @@ class MultiScriptEntropyMetric:
     def prepare(self, model_context: ModelMetricContext) -> dict[str, Any]:
         """Load a tokenizer and build the legacy global script cache once."""
 
-        from .script_entropy import build_global_script_cache_from_tokenizer
+        from .metrics.script_entropy import build_global_script_cache_from_tokenizer
 
         tokenizer = model_context.metadata.get("tokenizer")
         if tokenizer is None:
@@ -373,7 +373,7 @@ class MultiScriptEntropyMetric:
         if not isinstance(global_script_set, list) or not global_script_set:
             raise ValueError("script_cache must contain a non-empty global_script_set")
 
-        from .script_entropy import (
+        from .metrics.script_entropy import (
             annotate_token_scripts,
             build_cluster_script_count_df,
             compute_cluster_entropy_df,

@@ -429,6 +429,11 @@ The same discipline applies beyond token vocabularies. Any matrix with independe
 | [`crossscale/statistics_pipeline.py`](crossscale/statistics_pipeline.py) | Curve alignment, correlations, MAE, and R2 |
 | [`crossscale/plotting_pipeline.py`](crossscale/plotting_pipeline.py) | Reproducible figures and sibling plotting tables |
 | [`crossscale/experiment_orchestrator.py`](crossscale/experiment_orchestrator.py) | Multi-stage experiment orchestration |
+| [`crossscale/tokens.py`](crossscale/tokens.py) | Token-id to token-text conversion shared by all metrics and controls |
+| [`crossscale/metrics/`](crossscale/metrics/) | O-S (Kondrak N-DIST) and MS-E (Unicode script entropy) kernels |
+| [`crossscale/partition/`](crossscale/partition/) | Row L2 normalization, GPU HDBSCAN, and permutation-control kernels |
+| [`crossscale/representation.py`](crossscale/representation.py) | Randomized PCA kernel |
+| [`crossscale/compare.py`](crossscale/compare.py) | Spearman and Pearson helpers for curve comparison |
 | [`tests/`](tests/) | Unit and contract tests for the packaged pipeline |
 | [`res/`](res/) | Compact paper-scale results and metadata |
 | [`assets/`](assets/) | README preview figures |

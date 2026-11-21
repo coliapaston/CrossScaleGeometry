@@ -244,7 +244,7 @@ class ZScoreConcatenationComposer:
         )
         shared_scales = self._shared_scales(aligned_features)
 
-        from .spearman import _safe_standardize_against_baseline
+        from .compare import _safe_standardize_against_baseline
 
         observation_keys = []
         reference_blocks = []
@@ -1011,7 +1011,7 @@ class SpearmanStatistic:
             minimum_points=2,
         )
         _require_nonconstant_pair(self.name, reference, target)
-        from .spearman import compute_spearman_stats
+        from .compare import compute_spearman_stats
 
         legacy = compute_spearman_stats(reference, target)
         _require_finite_result(self.name, rho=legacy.rho, p_value=legacy.pvalue)
@@ -1054,7 +1054,7 @@ class PearsonStatistic:
             minimum_points=2,
         )
         _require_nonconstant_pair(self.name, reference, target)
-        from .pearson import compute_pearson_stats
+        from .compare import compute_pearson_stats
 
         legacy = compute_pearson_stats(reference, target)
         _require_finite_result(self.name, r=legacy.r, p_value=legacy.pvalue)
