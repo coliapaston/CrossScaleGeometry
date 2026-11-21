@@ -4,7 +4,7 @@ CrossScaleGeometry is a modular research pipeline for studying how local geometr
 
 This repository accompanies the paper **From Local Density to Lexical Features: A Cross-Scale Study of Unembedding Spaces**. It contains the analysis code, experiment notebooks, validation tests, compact result artifacts, and two repository-only extensions.
 
-[Paper PDF](docs/paper/from-local-density-to-lexical-features.pdf) · [Compact results](res/) · [License](LICENSE)
+[Paper (DOI)](https://doi.org/10.1007/978-981-92-6513-8_13) · [Compact results](res/) · [License](LICENSE)
 
 ## 1. What This Repository Supports
 
@@ -535,9 +535,26 @@ Large local artifact roots are ignored by Git. Pipeline stages write manifests, 
 
 ### Citation
 
-Archival citation metadata will be added when it becomes available. Until then, cite the accompanying paper by title:
+If you use this code, please cite the accompanying paper:
 
-> From Local Density to Lexical Features: A Cross-Scale Study of Unembedding Spaces.
+> Ke Dong, Pascal Hitzler, and Eugene Y. Vasserman. From Local Density to Lexical Features: A Cross-Scale Study of Unembedding Spaces. In *Multi-disciplinary Trends in Artificial Intelligence (MIWAI 2026)*, Lecture Notes in Computer Science, vol. 17147, pp. 160–175. Springer, Singapore, 2027. https://doi.org/10.1007/978-981-92-6513-8_13
+
+```bibtex
+@inproceedings{dong2027localdensity,
+  author    = {Dong, Ke and Hitzler, Pascal and Vasserman, Eugene Y.},
+  title     = {From Local Density to Lexical Features: A Cross-Scale Study of Unembedding Spaces},
+  booktitle = {Multi-disciplinary Trends in Artificial Intelligence: 19th International Conference, MIWAI 2026, Halifax, NS, Canada, October 10--12, 2026, Proceedings, Part I},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {17147},
+  pages     = {160--175},
+  publisher = {Springer},
+  address   = {Singapore},
+  year      = {2027},
+  doi       = {10.1007/978-981-92-6513-8_13}
+}
+```
+
+The code state that accompanies the published paper is tagged `miwai2026-camera-ready`.
 
 ### License
 
