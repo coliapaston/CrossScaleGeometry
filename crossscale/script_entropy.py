@@ -137,7 +137,8 @@ def decode_token_ids_to_strings(
 
     token_ids = list(token_ids)
 
-    if str(model_name).startswith("gpt"):
+    # Match control runs stored as e.g. "permutation/gpt-oss_rand".
+    if str(model_name).rsplit("/", 1)[-1].startswith("gpt"):
         decoded: List[str] = []
         for tid in token_ids:
             try:

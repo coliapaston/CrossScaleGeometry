@@ -71,7 +71,8 @@ def attach_token_str_from_tokenizer(
 
     df = cluster_df.copy()
 
-    use_gpt_decode = str(model_name).startswith("gpt")
+    # Match control runs stored as e.g. "permutation/gpt-oss_rand".
+    use_gpt_decode = str(model_name).rsplit("/", 1)[-1].startswith("gpt")
 
     def _map_id(x):
         tid = int(x)
@@ -342,7 +343,7 @@ def kondrak_trigram_ndist(
     """
     Compute normalized N-DIST using dynamic programming with:
       - n = 3
-      - fixed affix "##"
+      - no affix; affix_prefix is accepted for compatibility and ignored
       - case-insensitive via casefold()
       - deletion cost = 1
       - insertion cost = 1
@@ -351,8 +352,7 @@ def kondrak_trigram_ndist(
 
     Notes:
     - DP runs over the original character positions.
-    - Trigrams are taken from the affixed strings and end at the current position.
-    - Raw strings are normalized internally using the fixed preprocessing.
+    - Trigrams end at the current position of the casefolded strings.
     """
     x_raw = str(x_raw)
     y_raw = str(y_raw)

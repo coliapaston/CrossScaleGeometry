@@ -134,7 +134,8 @@ def token_id_to_token_text(
     model_name: str,
 ) -> str:
     tid = int(token_id)
-    if str(model_name).startswith("gpt"):
+    # Match control runs stored as e.g. "permutation/gpt-oss_rand".
+    if str(model_name).rsplit("/", 1)[-1].startswith("gpt"):
         return str(tokenizer.decode([tid], clean_up_tokenization_spaces=False))
     return str(tokenizer.convert_ids_to_tokens(tid))
 

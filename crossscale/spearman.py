@@ -567,7 +567,7 @@ def _pretty_model_name(model_name: str) -> str:
 
 
 def _format_mean_std(mean_value: float, std_value: float, *, precision: int = 3) -> str:
-    return f"{mean_value:.{precision}f} $\pm$ {std_value:.{precision}f}"
+    return f"{mean_value:.{precision}f} $\\pm$ {std_value:.{precision}f}"
 
 
 def make_main_spearman_latex_table(

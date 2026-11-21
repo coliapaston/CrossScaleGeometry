@@ -4,7 +4,9 @@ CrossScaleGeometry is a modular research pipeline for studying how local geometr
 
 This repository accompanies the paper **From Local Density to Lexical Features: A Cross-Scale Study of Unembedding Spaces**. It contains the analysis code, experiment notebooks, validation tests, compact result artifacts, and two repository-only extensions.
 
-[Paper (DOI)](https://doi.org/10.1007/978-981-92-6513-8_13) · [Compact results](res/) · [License](LICENSE)
+[Paper (DOI)](https://doi.org/10.1007/978-981-92-6513-8_13) · [Compact results](res/) · [Erratum](#erratum) · [License](LICENSE)
+
+> **Erratum (November 2026).** The GPT-oss-20B permutation controls in the published paper were scored on undecoded byte-level BPE token strings. Corrected values change GPT-oss entries in Tables 2, 5, and 7 but do not change any conclusion of the paper. See [Erratum](#erratum).
 
 ## 1. What This Repository Supports
 
@@ -202,15 +204,17 @@ The global permutation control preserves every partition, cluster size, and non-
 | Mistral-7B | MS-E | -0.183 ± 0.065 | 0.639 ± 0.126 | 0.198 ± 0.004 | -15.065 ± 1.018 |
 | Mixtral-8x7B | O-S | -0.073 ± 0.272 | 0.520 ± 0.152 | 0.338 ± 0.001 | -8.809 ± 0.025 |
 | Mixtral-8x7B | MS-E | -0.410 ± 0.099 | 0.287 ± 0.124 | 0.168 ± 0.003 | -36.972 ± 1.440 |
-| GPT-oss-20B | O-S | -0.417 ± 0.053 | 0.269 ± 0.068 | 0.396 ± 0.000 | -16.151 ± 0.006 |
-| GPT-oss-20B | MS-E | -0.865 ± 0.062 | 0.005 ± 0.006 | 0.158 ± 0.001 | -2.944 ± 0.060 |
+| GPT-oss-20B† | O-S | -0.433 ± 0.061 | 0.249 ± 0.077 | 0.394 ± 0.000 | -15.971 ± 0.013 |
+| GPT-oss-20B† | MS-E | -0.552 ± 0.033 | 0.125 ± 0.028 | 0.546 ± 0.001 | -53.287 ± 0.246 |
 
-The control generally breaks the baseline ordering and level. GPT-oss MS-E retains a strong negative rank correlation, so the result should be read as disruption and reversal rather than as universal absence of correlation. With only nine scale points, rank correlation is interpreted together with absolute error and R2.
+† Corrected values; see [Erratum](#erratum) for the published values.
+
+The control breaks the baseline ordering and level for every model–metric pair. Five of the six pairs have negative mean rank correlations, and none is significant at 0.05. With only nine scale points, rank correlation is interpreted together with absolute error and R2.
 
 <p align="center">
   <img src="assets/appendix_permutation_mistral.png" alt="Mistral global token permutation" width="32%">
   <img src="assets/appendix_permutation_mixtral.png" alt="Mixtral global token permutation" width="32%">
-  <img src="assets/appendix_permutation_gpt_oss.png" alt="GPT-oss global token permutation" width="32%">
+  <img src="assets/appendix_permutation_gpt_oss.png" alt="GPT-oss global token permutation (corrected)" width="32%">
 </p>
 
 ### 4.5 Length-bucket permutation
@@ -223,7 +227,9 @@ Each seed-specific O-S curve is compared separately with the deterministic basel
 |---|---|---:|---:|---:|---:|
 | Mistral-7B | O-S | 0.545 ± 0.118 | 0.149 ± 0.095 | 0.351 ± 0.001 | -8.770 ± 0.030 |
 | Mixtral-8x7B | O-S | 0.675 ± 0.111 | 0.061 ± 0.054 | 0.335 ± 0.000 | -8.416 ± 0.013 |
-| GPT-oss-20B | O-S | -0.373 ± 0.052 | 0.326 ± 0.073 | 0.390 ± 0.000 | -15.618 ± 0.018 |
+| GPT-oss-20B† | O-S | -0.415 ± 0.060 | 0.272 ± 0.078 | 0.385 ± 0.000 | -15.216 ± 0.015 |
+
+† Corrected values; see [Erratum](#erratum) for the published values.
 
 Mixtral retains the strongest positive rank correspondence, but all three controls show large MAE and strongly negative R2, so none reproduces the baseline curve in magnitude: a constant baseline-mean predictor explains the deterministic curve better than the permuted curve. The Mixtral result indicates partial preservation of scale ordering after controlling for coarse length, not numerical agreement with the baseline. This control is applied only to O-S because token length is a direct orthographic confound.
 
@@ -531,6 +537,41 @@ Low12 is low-dimensional, not lightweight. Complete reproduction of all models a
 - `assets/` stores PNG previews used by this README.
 
 Large local artifact roots are ignored by Git. Pipeline stages write manifests, metadata, and explicit completion markers so that expensive tasks can be validated and resumed. Plotting stages write a sibling data table for every generated figure.
+
+## Erratum
+
+*November 2026.*
+
+**Issue.** In the published paper, the GPT-oss-20B token-permutation and length-bucket-permutation controls scored O-S and MS-E on undecoded byte-level BPE token strings (for example `ĠAfrica` instead of ` Africa`). The metric code decoded GPT-oss tokens only when the model name started with `gpt`, and these control runs were stored under the names `permutation/gpt-oss_rand` and `permutation/gpt-oss_length_bucket_rand`. The permutations themselves, including the length-bucket assignment, used decoded strings and are unchanged; only the metric step was affected. The code now decodes these runs correctly.
+
+**Scope.** Only GPT-oss-20B entries of the permutation controls change: Table 2 (Permutation and Gap), Table 5, and Table 7. All baseline results (Table 1, Figs. 2–3, Table 2 Full and Random), Tables 4 and 6, Appendix A.4, and every Mistral-7B and Mixtral-8×7B result are unaffected.
+
+**Corrected values (GPT-oss-20B).** Values are mean ± standard deviation, as in the paper.
+
+| Table | Metric | Quantity | Published | Corrected | Difference |
+|---|---|---|---:|---:|---:|
+| 2 | O-S | Permutation | 0.101 ± 0.016 | 0.103 ± 0.018 | +0.002 |
+| 2 | O-S | Gap | 0.398 | 0.396 | −0.002 |
+| 2 | MS-E | Permutation | 0.280 ± 0.126 | 0.232 ± 0.091 | −0.048 |
+| 2 | MS-E | Gap | −0.210 | −0.162 | +0.048 |
+| 5 | O-S | Spearman ρ | −0.417 ± 0.053 | −0.433 ± 0.061 | −0.016 |
+| 5 | O-S | p-value | 0.269 ± 0.068 | 0.249 ± 0.077 | −0.020 |
+| 5 | O-S | MAE | 0.396 ± 0.000 | 0.394 ± 0.000 | −0.002 |
+| 5 | O-S | R² | −16.151 ± 0.006 | −15.971 ± 0.013 | +0.180 |
+| 5 | MS-E | Spearman ρ | −0.865 ± 0.062 | −0.552 ± 0.033 | +0.313 |
+| 5 | MS-E | p-value | 0.005 ± 0.006 | 0.125 ± 0.028 | +0.120 |
+| 5 | MS-E | MAE | 0.158 ± 0.001 | 0.546 ± 0.001 | +0.388 |
+| 5 | MS-E | R² | −2.944 ± 0.060 | −53.287 ± 0.246 | −50.343 |
+| 7 | O-S | Spearman ρ | −0.373 ± 0.052 | −0.415 ± 0.060 | −0.042 |
+| 7 | O-S | p-value | 0.326 ± 0.073 | 0.272 ± 0.078 | −0.054 |
+| 7 | O-S | MAE | 0.390 ± 0.000 | 0.385 ± 0.000 | −0.005 |
+| 7 | O-S | R² | −15.618 ± 0.018 | −15.216 ± 0.015 | +0.402 |
+
+**Effect on conclusions.** None of the paper's conclusions change. The corrected GPT-oss controls still fail to reproduce the baseline: every quantitative statement in Sect. 4.2 and Appendix A.5 still holds (MAE > 0.15 and R² < −2.9 for token permutation; five of six model–metric pairs with negative mean ρ; mean p > 0.05, MAE > 0.33, and R² < −8.4 for length-bucket permutation). The only changed figure in the text is the token-permutation MAE range in Sect. 4.2, which becomes 0.168–0.546 instead of 0.158–0.396. The corrected GPT-oss MS-E Gap has the same sign as for Mistral-7B and Mixtral-8×7B.
+
+**Figure.** The GPT-oss panel of the token-permutation figure in Sect. 4.4 now shows the corrected curves. Under correct decoding, the permuted clusters mix more writing systems, so the raw MS-E curve rises from about 0.14–0.41 to about 0.52–1.57 while keeping a similar shape. The published panel remains in [`res/linguistic/permutation_gpt-oss_rand.pdf`](res/linguistic/permutation_gpt-oss_rand.pdf), and the corrected one is in [`res/linguistic/permutation_gpt-oss_rand_corrected.pdf`](res/linguistic/permutation_gpt-oss_rand_corrected.pdf).
+
+**Data.** Corrected tables are in [`res/paper_results/corrections/gpt-oss/`](res/paper_results/corrections/gpt-oss/). The published tables remain unchanged in `res/paper_results/` for reference. `tests/test_paper_results.py` checks both the published and the corrected values.
 
 ## 9. Citation / License
 
