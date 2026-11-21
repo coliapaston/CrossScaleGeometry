@@ -525,6 +525,7 @@ Low12 is low-dimensional, not lightweight. Complete reproduction of all models a
 - `res/spectrum_analysis/` stores compact spectrum arrays, selected scales, and provenance metadata.
 - `res/linguistic/` stores paper-scale lexical plots and selected controls.
 - `res/clusters/` stores compact baseline cluster diagnostics.
+- `res/paper_results/` stores the scale-level and cluster-level tables behind the paper's figures and Tables 2 and 4–7; see its [README](res/paper_results/README.md).
 - `comp/` stores main-workflow generated matrices, partitions, metrics, and control artifacts.
 - `comp_supplement/` stores the independent Low12 artifact tree.
 - `assets/` stores PNG previews used by this README.

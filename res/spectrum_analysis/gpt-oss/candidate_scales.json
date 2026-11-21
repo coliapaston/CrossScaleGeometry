@@ -1,0 +1,48 @@
+{
+  "full_dimension": 2880,
+  "metadata": {
+    "model_name": "gpt-oss",
+    "scope": "main",
+    "space_name": "output_proj"
+  },
+  "provenance": {
+    "1591": [
+      "energy"
+    ],
+    "182": [
+      "elbow"
+    ],
+    "2264": [
+      "energy"
+    ],
+    "2532": [
+      "energy"
+    ],
+    "2868": [
+      "elbow"
+    ],
+    "2880": [
+      "full_dimension"
+    ],
+    "466": [
+      "elbow"
+    ],
+    "6": [
+      "elbow"
+    ],
+    "739": [
+      "energy"
+    ]
+  },
+  "scales": [
+    6,
+    182,
+    466,
+    739,
+    1591,
+    2264,
+    2532,
+    2868,
+    2880
+  ]
+}

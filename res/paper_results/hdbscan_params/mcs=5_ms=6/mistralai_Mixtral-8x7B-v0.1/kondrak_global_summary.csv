@@ -1,0 +1,10 @@
+model_name,space_name,pca_dim,l2_norm,min_cluster_size,min_samples,metric,cluster_selection_method,cluster_selection_epsilon,global_mean,global_std,n_clusters
+mistralai/Mixtral-8x7B-v0.1,output_proj,8,True,5,6,euclidean,eom,0.0,0.1721291828405299,0.16322105097657924,49
+mistralai/Mixtral-8x7B-v0.1,output_proj,158,True,5,6,euclidean,eom,0.0,0.46631973773113033,0.20197736145172335,167
+mistralai/Mixtral-8x7B-v0.1,output_proj,1111,True,5,6,euclidean,eom,0.0,0.5344078007888464,0.1374069114717461,811
+mistralai/Mixtral-8x7B-v0.1,output_proj,2156,True,5,6,euclidean,eom,0.0,0.5301606913254241,0.136542164030506,872
+mistralai/Mixtral-8x7B-v0.1,output_proj,3052,True,5,6,euclidean,eom,0.0,0.5274433067430351,0.13686904600349087,879
+mistralai/Mixtral-8x7B-v0.1,output_proj,3457,True,5,6,euclidean,eom,0.0,0.5259388515892597,0.13702355957626178,889
+mistralai/Mixtral-8x7B-v0.1,output_proj,3957,True,5,6,euclidean,eom,0.0,0.524703914468066,0.13757728748156528,894
+mistralai/Mixtral-8x7B-v0.1,output_proj,4093,True,5,6,euclidean,eom,0.0,0.5254129717617777,0.13750440375989265,883
+mistralai/Mixtral-8x7B-v0.1,output_proj,4096,True,5,6,euclidean,eom,0.0,0.5252983419780302,0.1375608691829341,883

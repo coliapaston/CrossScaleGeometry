@@ -1,0 +1,10 @@
+model_name,scale,sources,is_full_dimension
+gpt-oss,6,elbow,False
+gpt-oss,182,elbow,False
+gpt-oss,466,elbow,False
+gpt-oss,739,energy,False
+gpt-oss,1591,energy,False
+gpt-oss,2264,energy,False
+gpt-oss,2532,energy,False
+gpt-oss,2868,elbow,False
+gpt-oss,2880,full_dimension,True

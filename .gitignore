@@ -39,11 +39,11 @@ env/
 # Model downloads and caches
 .cache/
 .hf_cache/
-artifacts/
-artifacts_test/
-gpt-oss/
-mistralai/
-stability/
+/artifacts/
+/artifacts_test/
+/gpt-oss/
+/mistralai/
+/stability/
 
 # Large tensors, checkpoints, and columnar intermediates
 *.bin
@@ -55,9 +55,9 @@ stability/
 *.safetensors
 
 # Generated experiment directories
-comp/
-comp_supplement/
-comp_validation/
+/comp/
+/comp_supplement/
+/comp_validation/
 
 # Published paper PDF (publisher copyright)
 From_Local_Density_to_Lexical_Features_MIWAI2026.pdf

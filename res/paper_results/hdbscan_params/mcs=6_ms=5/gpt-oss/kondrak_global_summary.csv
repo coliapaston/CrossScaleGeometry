@@ -1,0 +1,10 @@
+model_name,space_name,pca_dim,l2_norm,min_cluster_size,min_samples,metric,cluster_selection_method,cluster_selection_epsilon,global_mean,global_std,n_clusters
+gpt-oss,output_proj,6,True,6,5,euclidean,eom,0.0,0.24923259521076388,0.1646386701291458,721
+gpt-oss,output_proj,182,True,6,5,euclidean,eom,0.0,0.43515200414520167,0.19597258192713898,595
+gpt-oss,output_proj,466,True,6,5,euclidean,eom,0.0,0.534183680713466,0.18146184243486918,1660
+gpt-oss,output_proj,739,True,6,5,euclidean,eom,0.0,0.5421090680491183,0.17627837488820683,2492
+gpt-oss,output_proj,1591,True,6,5,euclidean,eom,0.0,0.53655802972761,0.172286657293928,3336
+gpt-oss,output_proj,2264,True,6,5,euclidean,eom,0.0,0.5316162170189566,0.1738258766323159,3543
+gpt-oss,output_proj,2532,True,6,5,euclidean,eom,0.0,0.5296282494705813,0.17576552243294064,3566
+gpt-oss,output_proj,2868,True,6,5,euclidean,eom,0.0,0.5272297343210132,0.17561805780710377,3572
+gpt-oss,output_proj,2880,True,6,5,euclidean,eom,0.0,0.5271576715078807,0.175493745198379,3571
