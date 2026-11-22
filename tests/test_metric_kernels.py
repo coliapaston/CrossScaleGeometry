@@ -10,18 +10,18 @@ import unittest
 
 import pandas as pd
 
-from crossscale.kondrak_cluster_morphology import (
-    attach_token_str_from_tokenizer,
+from crossscale.metrics.orthographic import (
     compute_cluster_morphology_score,
     kondrak_trigram_similarity,
 )
-from crossscale.permutation_multiseed_pipeline import token_id_to_token_text
-from crossscale.script_entropy import (
+from crossscale.metrics.script_entropy import (
     decode_token_ids_to_strings,
     dominant_script,
     entropy_from_distribution,
     normalized_entropy,
 )
+from crossscale.partition.permutation import token_id_to_token_text
+from crossscale.tokens import attach_token_str_from_tokenizer
 
 
 class KondrakSimilarityTest(unittest.TestCase):

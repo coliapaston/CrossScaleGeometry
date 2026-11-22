@@ -2,7 +2,7 @@
 
 CrossScaleGeometry is a modular research pipeline for studying how local geometry and row-associated attributes change across representation scales. The current paper application analyzes lexical structure in LLM unembedding matrices, but the pipeline can also be adapted to other matrices whose rows are independently meaningful vectors with associated token, string, categorical, or linguistic attributes.
 
-This repository accompanies the paper **From Local Density to Lexical Features: A Cross-Scale Study of Unembedding Spaces**. It contains the analysis code, experiment notebooks, validation tests, compact result artifacts, and two repository-only extensions.
+This repository accompanies the paper **From Local Density to Lexical Features: A Cross-Scale Study of Unembedding Spaces**. It contains the analysis code, a walkthrough notebook, validation tests, compact result artifacts, and two repository-only extensions.
 
 [Paper (DOI)](https://doi.org/10.1007/978-981-92-6513-8_13) · [Compact results](res/) · [Erratum](#erratum) · [License](LICENSE)
 
@@ -297,7 +297,7 @@ The table reports the fraction of matrix rows labeled as HDBSCAN noise. `SI` is 
 
 </details>
 
-The complete persistent workflow is in [`1r_low_dimension_spectrum_anlys.ipynb`](1r_low_dimension_spectrum_anlys.ipynb). Reproduction writes the underlying plotting tables beneath `comp_supplement/low_energy_lt050_v1/figures/baseline/`; this generated artifact tree is excluded from version control.
+The complete persistent workflow is in [`archive/1r_low_dimension_spectrum_anlys.ipynb`](archive/1r_low_dimension_spectrum_anlys.ipynb). Reproduction writes the underlying plotting tables beneath `comp_supplement/low_energy_lt050_v1/figures/baseline/`; this generated artifact tree is excluded from version control.
 
 #### What this says about trend vs step
 
@@ -360,7 +360,7 @@ The full-dimensional clustering should therefore be invariant in exact arithmeti
 | Mixtral-8x7B | 0.998748 | 0.997806-0.999268 | 0.998887 | 0.998275-0.999365 |
 | GPT-oss-20B | 0.999634 | 0.999547-0.999707 | 0.999635 | 0.999517-0.999711 |
 
-The control therefore verifies numerical near-invariance, not exact equality of every HDBSCAN label. Its implementation is in [`4r_random_projection_hdbscan.ipynb`](4r_random_projection_hdbscan.ipynb) and [`crossscale/random_projection.py`](crossscale/random_projection.py).
+The control therefore verifies numerical near-invariance, not exact equality of every HDBSCAN label. Its implementation is in [`archive/4r_random_projection_hdbscan.ipynb`](archive/4r_random_projection_hdbscan.ipynb) and [`crossscale/random_projection.py`](crossscale/random_projection.py).
 
 ## 6. Model and Vocabulary Configuration
 
@@ -432,32 +432,17 @@ The same discipline applies beyond token vocabularies. Any matrix with independe
 | [`crossscale/tokens.py`](crossscale/tokens.py) | Token-id to token-text conversion shared by all metrics and controls |
 | [`crossscale/metrics/`](crossscale/metrics/) | O-S (Kondrak N-DIST) and MS-E (Unicode script entropy) kernels |
 | [`crossscale/partition/`](crossscale/partition/) | Row L2 normalization, GPU HDBSCAN, and permutation-control kernels |
-| [`crossscale/representation.py`](crossscale/representation.py) | Randomized PCA kernel |
+| [`crossscale/representation.py`](crossscale/representation.py) | Full and randomized PCA kernels |
 | [`crossscale/compare.py`](crossscale/compare.py) | Spearman and Pearson helpers for curve comparison |
+| [`walkthrough.ipynb`](walkthrough.ipynb) | Paper tables and curves from tracked results, and an end-to-end pipeline example |
+| [`archive/`](archive/) | Historical experiment notebooks |
 | [`tests/`](tests/) | Unit and contract tests for the packaged pipeline |
 | [`res/`](res/) | Compact paper-scale results and metadata |
 | [`assets/`](assets/) | README preview figures |
 
-The notebooks retain the historical experiment sequence:
+Start with [`walkthrough.ipynb`](walkthrough.ipynb). It rebuilds Table 1, Table 2, Tables 4–7, and the cross-scale curves from `res/` on a CPU, and shows how to run every stage of the pipeline on exported model tensors.
 
-| Stage | Notebook | Purpose |
-|---:|---|---|
-| 0 | [`00_init.ipynb`](00_init.ipynb) | Model, tokenizer, and tensor preparation |
-| 1 | [`1_spectrum_anlys.ipynb`](1_spectrum_anlys.ipynb) | Main spectrum analysis and scale selection |
-| 1R | [`1r_low_dimension_spectrum_anlys.ipynb`](1r_low_dimension_spectrum_anlys.ipynb) | End-to-end Low12 supplement |
-| 2 | [`2_full_pca.ipynb`](2_full_pca.ipynb) | Deterministic full PCA |
-| 3 | [`3_hdbscan_gpu.ipynb`](3_hdbscan_gpu.ipynb) | Baseline GPU HDBSCAN |
-| 3R | [`3r_hdbscan_gpu.ipynb`](3r_hdbscan_gpu.ipynb) | HDBSCAN parameter stability |
-| 4 | [`4_random PCA_hdbscan.ipynb`](4_random%20PCA_hdbscan.ipynb) | Randomized-PCA stability |
-| 4R | [`4r_random_projection_hdbscan.ipynb`](4r_random_projection_hdbscan.ipynb) | Random orthogonal projection |
-| 5 / 5R | [`5_morphology.ipynb`](5_morphology.ipynb), [`5r_morphology.ipynb`](5r_morphology.ipynb) | Orthographic analyses |
-| 6 / 6R | [`6_multi-ligual.ipynb`](6_multi-ligual.ipynb), [`6r_multi-ligual.ipynb`](6r_multi-ligual.ipynb) | Multi-script analyses |
-| 7 / 7R | [`7_spearman.ipynb`](7_spearman.ipynb), [`7r_pearson.ipynb`](7r_pearson.ipynb) | Cross-scale association statistics |
-| 8 | [`8_permutation.ipynb`](8_permutation.ipynb) | Token permutation controls |
-| 9 | [`9_case study.ipynb`](9_case%20study.ipynb) | Cluster-level case studies |
-| 10 | [`10_statistic.ipynb`](10_statistic.ipynb), [`10p_statistic.ipynb`](10p_statistic.ipynb), [`10r_statistic.ipynb`](10r_statistic.ipynb) | Baseline, permutation, and stability summaries |
-
-The `R` suffix is historical and has no single meaning. Use the notebook descriptions rather than inferring an experiment from its filename.
+The notebooks that produced the published results are kept in [`archive/`](archive/) as a record. They call modules that were later replaced by the packaged pipeline and no longer run against the current code; the code they ran is preserved under the Git tag [`pre-legacy-removal`](https://github.com/coliapaston/CrossScaleGeometry/tree/pre-legacy-removal), and the code used for the camera-ready paper under [`miwai2026-camera-ready`](https://github.com/coliapaston/CrossScaleGeometry/tree/miwai2026-camera-ready).
 
 ### Installation
 
@@ -508,26 +493,26 @@ Repeat the export for each model. Authentication and upstream license acceptance
 | `mistralai/Mixtral-8x7B-v0.1` | `mistralai/Mixtral-8x7B-v0.1/` |
 | `openai/gpt-oss-20b` | `gpt-oss/` |
 
-Each root must contain `tokenizer/` and `tensors/output_proj.pt`. See [`00_init.ipynb`](00_init.ipynb) and [`dump_hf_tensors.py`](dump_hf_tensors.py) for the complete export path.
+Each root must contain `tokenizer/` and `tensors/output_proj.pt`. See [`dump_hf_tensors.py`](dump_hf_tensors.py) for the complete export path.
 
 ### Running experiments
 
-The main dependency order is:
+Every stage reads the previous stage's manifest and writes its own outputs, manifest, and configuration hash, so runs can be resumed with `RunPolicy(existing_output="resume")`. The main dependency order is:
 
-1. `00_init.ipynb`
-2. `1_spectrum_anlys.ipynb`
-3. `2_full_pca.ipynb`
-4. `3_hdbscan_gpu.ipynb`
-5. `5_morphology.ipynb` and `6_multi-ligual.ipynb`
-6. `7_spearman.ipynb` and the `10*_statistic.ipynb` summaries
+1. `crossscale.spectrum_pipeline.run_spectrum_pipeline` for the spectrum and candidate scales;
+2. `crossscale.representation.run_full_pca` for the deterministic full PCA, served per scale by `clustering_pipeline.FullPCAPrefixProvider`;
+3. `crossscale.clustering_pipeline.ClusteringPipeline` with `RowL2Normalizer` and `HDBSCANAdapter`;
+4. `crossscale.metric_pipeline.PartitionMetricPipeline` with `OrthographicSimilarityMetric` and `MultiScriptEntropyMetric`;
+5. `crossscale.statistics_pipeline.StatisticsPipeline` for Spearman, MAE, and R² between curves.
 
-Run the control branches after their baseline representations or partitions exist:
+The controls reuse these stages:
 
-- `3r_hdbscan_gpu.ipynb` for HDBSCAN perturbations;
-- `4_random PCA_hdbscan.ipynb` for randomized PCA;
-- `4r_random_projection_hdbscan.ipynb` for random orthogonal projection;
-- `8_permutation.ipynb` for permutation controls;
-- `1r_low_dimension_spectrum_anlys.ipynb` for the isolated Low12 workflow.
+- randomized PCA: `representation_pipeline.RandomizedPCARepresentationPipeline`, then `ClusteringPipeline` with `SavedPerScaleProvider`;
+- HDBSCAN parameters: `ClusteringPipeline` with other `HDBSCANAdapter` settings;
+- token and length-bucket permutation: `permutation_pipeline.PartitionPermutationPipeline` with `GlobalTokenPermutation` or `LengthBucketTokenPermutation`;
+- random orthogonal projection: [`crossscale/random_projection.py`](crossscale/random_projection.py).
+
+Section 6 of [`walkthrough.ipynb`](walkthrough.ipynb) runs steps 2–4 for one model.
 
 Low12 is low-dimensional, not lightweight. Complete reproduction of all models and controls requires a GPU, long runtimes, and potentially hundreds of gigabytes of local storage.
 

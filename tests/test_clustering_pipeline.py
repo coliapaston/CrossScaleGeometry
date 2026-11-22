@@ -3,7 +3,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
@@ -203,7 +202,7 @@ class MatrixTransformTests(unittest.TestCase):
         self.assertIsInstance(transform, MatrixTransform)
 
     def test_row_l2_matches_existing_function_elementwise(self):
-        from crossscale.pca_hdbscan import apply_l2_normalization
+        from crossscale.partition.hdbscan import apply_l2_normalization
 
         task = make_task(scale=3)
         matrix = np.array(
@@ -350,7 +349,7 @@ class PartitionMethodProtocolTests(unittest.TestCase):
 
 class HDBSCANAdapterTests(unittest.TestCase):
     def test_passes_exact_parameters_and_standardizes_old_table(self):
-        from crossscale.pca_hdbscan import build_token_cluster_df
+        from crossscale.partition.hdbscan import build_token_cluster_df
 
         task = make_task(scale=2)
         matrix = np.arange(8, dtype=np.float32).reshape(4, 2)
@@ -937,128 +936,6 @@ class ClusteringPipelineTests(unittest.TestCase):
             self.assertTrue(str(run.manifest_path).startswith(str(output_root)))
             self.assertFalse(any(source_root.rglob("partition.csv")))
             self.assertTrue(any(output_root.rglob("partition.csv")))
-
-
-class LegacySavedPCARootTests(unittest.TestCase):
-    def setUp(self):
-        from crossscale import pca_hdbscan
-
-        self.module = pca_hdbscan
-        self.parameters = [
-            {
-                "min_cluster_size": 5,
-                "min_samples": 5,
-                "metric": "euclidean",
-                "cluster_selection_method": "eom",
-                "cluster_selection_epsilon": 0.0,
-            }
-        ]
-
-    def fake_summary(self, **kwargs):
-        return {
-            "pca_dim": kwargs["pca_dim"],
-            "cluster_csv_path": str(Path(kwargs["out_root"]) / "partition.csv"),
-        }
-
-    def test_default_keeps_backward_compatible_shared_root(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            with patch.object(
-                self.module,
-                "load_saved_pca_result",
-                return_value={
-                    "X_pca": np.ones((4, 2), dtype=np.float32),
-                    "save_dir": "mock",
-                },
-            ) as loader, patch.object(
-                self.module,
-                "run_gpu_hdbscan",
-                return_value=(np.array([0, 0, 1, -1]), np.ones(4, dtype=np.float32)),
-            ), patch.object(
-                self.module,
-                "save_run_outputs",
-                side_effect=self.fake_summary,
-            ) as saver:
-                self.module.run_saved_pca_hdbscan_grid(
-                    candidate_dims=[2],
-                    hdbscan_param_grid=self.parameters,
-                    model_name="model",
-                    space_name="space",
-                    pca_mode="full",
-                    out_root=temp_dir,
-                )
-
-            self.assertEqual(loader.call_args.kwargs["out_root"], temp_dir)
-            self.assertEqual(saver.call_args.kwargs["out_root"], temp_dir)
-
-    def test_explicit_source_root_does_not_change_output_root(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            source_root = str(Path(temp_dir) / "source")
-            output_root = str(Path(temp_dir) / "output")
-            with patch.object(
-                self.module,
-                "load_saved_pca_result",
-                return_value={
-                    "X_pca": np.ones((4, 2), dtype=np.float32),
-                    "save_dir": "mock",
-                },
-            ) as loader, patch.object(
-                self.module,
-                "run_gpu_hdbscan",
-                return_value=(np.array([0, 0, 1, -1]), np.ones(4, dtype=np.float32)),
-            ), patch.object(
-                self.module,
-                "save_run_outputs",
-                side_effect=self.fake_summary,
-            ) as saver:
-                self.module.run_saved_pca_hdbscan_grid(
-                    candidate_dims=[2],
-                    hdbscan_param_grid=self.parameters,
-                    model_name="model",
-                    space_name="space",
-                    pca_mode="full",
-                    out_root=output_root,
-                    pca_source_root=source_root,
-                )
-
-            self.assertEqual(loader.call_args.kwargs["out_root"], source_root)
-            self.assertEqual(saver.call_args.kwargs["out_root"], output_root)
-            self.assertTrue(
-                (Path(output_root) / "model" / "space" / "summary_full_pca.csv").is_file()
-            )
-
-    def test_explicit_source_root_applies_to_randomized_mode(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            source_root = str(Path(temp_dir) / "source")
-            output_root = str(Path(temp_dir) / "output")
-            with patch.object(
-                self.module,
-                "load_saved_pca_result",
-                return_value={
-                    "X_pca": np.ones((4, 2), dtype=np.float32),
-                    "save_dir": "mock",
-                },
-            ) as loader, patch.object(
-                self.module,
-                "run_gpu_hdbscan",
-                return_value=(np.array([0, 0, 1, -1]), np.ones(4, dtype=np.float32)),
-            ), patch.object(
-                self.module,
-                "save_run_outputs",
-                side_effect=self.fake_summary,
-            ) as saver:
-                self.module.run_saved_pca_hdbscan_grid(
-                    candidate_dims=[2],
-                    hdbscan_param_grid=self.parameters,
-                    model_name="model",
-                    space_name="space",
-                    pca_mode="randomized",
-                    pca_seed=42,
-                    out_root=output_root,
-                    pca_source_root=source_root,
-                )
-
-            self.assertEqual(loader.call_args.kwargs["out_root"], source_root)
-            self.assertEqual(saver.call_args.kwargs["out_root"], output_root)
 
 
 if __name__ == "__main__":

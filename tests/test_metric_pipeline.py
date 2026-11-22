@@ -482,11 +482,11 @@ class PartitionMetricContractTests(unittest.TestCase):
 
 class OrthographicSimilarityMetricTests(unittest.TestCase):
     def test_matches_existing_numeric_functions_exactly(self):
-        from crossscale.kondrak_cluster_morphology import (
+        from crossscale.metrics.orthographic import (
             compute_cluster_level_morphology_df,
             compute_global_cluster_stats,
-            filter_valid_clusters,
         )
+        from crossscale.partition.hdbscan import filter_valid_clusters
 
         partition = pd.DataFrame(
             {
@@ -583,7 +583,7 @@ class MultiScriptEntropyMetricTests(unittest.TestCase):
             return self.tokens[int(token_ids)]
 
     def test_matches_existing_numeric_chain_exactly(self):
-        from crossscale.script_entropy import (
+        from crossscale.metrics.script_entropy import (
             annotate_token_scripts,
             build_cluster_script_count_df,
             compute_cluster_entropy_df,

@@ -11,13 +11,13 @@ from typing import Any, Dict, Sequence
 import numpy as np
 import pandas as pd
 
-from pca_hdbscan import (
+from crossscale.partition.hdbscan import (
     apply_l2_normalization,
     build_token_cluster_df,
     cleanup_gpu_memory,
-    prepare_embedding_matrix,
     run_gpu_hdbscan,
 )
+from crossscale.representation import prepare_embedding_matrix
 
 
 DEFAULT_SEEDS = [

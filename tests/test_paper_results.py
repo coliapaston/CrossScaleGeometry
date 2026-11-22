@@ -12,8 +12,8 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from crossscale.kondrak_cluster_morphology import compute_global_cluster_stats
-from crossscale.script_entropy import (
+from crossscale.metrics.orthographic import compute_global_cluster_stats
+from crossscale.metrics.script_entropy import (
     entropy_from_distribution,
     normalized_entropy,
     partition_entropy_stats,

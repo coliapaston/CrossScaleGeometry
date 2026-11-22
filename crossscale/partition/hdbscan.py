@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import gc
 import time
 from typing import Tuple
 
@@ -115,3 +116,23 @@ def filter_valid_clusters(
     out[cluster_id_col] = pd.to_numeric(out[cluster_id_col], errors="raise").astype(int)
     out = out.loc[out[cluster_id_col] != -1].copy()
     return out
+
+
+def cleanup_gpu_memory() -> None:
+    import cupy as cp
+    import torch
+
+    gc.collect()
+
+    try:
+        cp.get_default_memory_pool().free_all_blocks()
+        cp.get_default_pinned_memory_pool().free_all_blocks()
+    except Exception:
+        pass
+
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        try:
+            torch.cuda.ipc_collect()
+        except Exception:
+            pass

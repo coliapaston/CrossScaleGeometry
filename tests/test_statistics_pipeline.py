@@ -3,7 +3,6 @@ import tempfile
 import unittest
 
 import numpy as np
-import pandas as pd
 from scipy.stats import pearsonr, spearmanr
 from sklearn.metrics import r2_score
 
@@ -311,30 +310,22 @@ class ZScoreConcatenationComposerTests(unittest.TestCase):
             for scale, value in zip(scales, values)
         ))
 
-    def test_two_feature_result_matches_existing_joint_zscore_helper(self):
-        from crossscale.spearman import build_joint_mean_zscore_vectors
+    def test_two_feature_result_matches_baseline_zscore_helper(self):
+        from crossscale.compare import _safe_standardize_against_baseline
 
         scales = (10, 20, 30, 40)
         morph_reference = (0.2, 0.5, 0.9, 1.4)
         morph_target = (0.3, 0.45, 1.1, 1.2)
         script_reference = (0.05, 0.2, 0.4, 0.8)
         script_target = (0.08, 0.18, 0.5, 0.7)
-        legacy_frames = tuple(
-            pd.DataFrame({
-                "pca_dim": scales,
-                "mean_value": values,
-                "std_value": np.zeros(len(scales)),
-            })
-            for values in (
-                morph_reference,
-                morph_target,
-                script_reference,
-                script_target,
-            )
+        z_morph_reference, z_morph_target = _safe_standardize_against_baseline(
+            np.asarray(morph_reference), np.asarray(morph_target),
         )
-        expected_reference, expected_target, _, _ = (
-            build_joint_mean_zscore_vectors(*legacy_frames)
+        z_script_reference, z_script_target = _safe_standardize_against_baseline(
+            np.asarray(script_reference), np.asarray(script_target),
         )
+        expected_reference = np.concatenate([z_morph_reference, z_script_reference])
+        expected_target = np.concatenate([z_morph_target, z_script_target])
         composer = ZScoreConcatenationComposer(
             feature_slots=("orthographic_similarity", "multi_script_entropy"),
         )
@@ -776,7 +767,7 @@ class RealStatisticAdapterTests(unittest.TestCase):
         self.target = np.array([0.1, 0.7, 0.5, 1.3, 0.55], dtype=float)
 
     def test_spearman_matches_existing_helper_and_scipy(self):
-        from crossscale.spearman import compute_spearman_stats
+        from crossscale.compare import compute_spearman_stats
 
         expected_legacy = compute_spearman_stats(self.reference, self.target)
         expected_scipy = spearmanr(self.reference, self.target)
